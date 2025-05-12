@@ -1,0 +1,40 @@
+
+/* Hero section styles */
+.hero-section {
+  @apply min-h-screen flex flex-col justify-center items-center px-6 py-20 md:px-12 lg:px-16 overflow-hidden;
+  position: relative;
+}
+
+.hero-content {
+  @apply relative z-20 container mx-auto flex flex-col items-center justify-center text-center;
+}
+
+.hero-headline {
+  @apply text-4xl md:text-6xl lg:text-7xl font-bold mb-6;
+}
+
+.hero-subheadline {
+  @apply text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-ai8ty-white/80;
+}
+
+.hero-cta-container {
+  @apply flex flex-col sm:flex-row gap-4 mt-6;
+}
+
+.hero-background {
+  @apply absolute inset-0 z-0;
+}
+
+.hero-scroll-indicator {
+  @apply absolute bottom-16 left-1/2 -translate-x-1/2 z-20;
+  animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0) translateX(-50%);
+  }
+  50% {
+    transform: translateY(10px) translateX(-50%);
+  }
+}

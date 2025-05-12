@@ -78,10 +78,10 @@ const Particles: React.FC<ParticleProps> = ({ count = 2000, mouse }) => {
       </bufferGeometry>
       <pointsMaterial
         size={0.1}
-        sizeAttenuation
-        transparent
+        sizeAttenuation={true}
+        transparent={true}
         depthWrite={false}
-        vertexColors
+        vertexColors={true}
       />
     </points>
   );
@@ -99,7 +99,7 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
   const [supported, setSupported] = useState<boolean | null>(null);
   const mousePos = useRef({ x: 0, y: 0 });
   const isMobile = useIsMobile();
-  const [isVisible, setIsVisible] = useState(true); // Always visible by default
+  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
     setSupported(isWebGLSupported());
@@ -138,7 +138,7 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
     // Fallback to CSS animation if WebGL is not supported
     return (
       <div 
-        className={`fixed inset-0 bg-ai8ty-black overflow-hidden -z-10 ${className}`}
+        className={`fixed inset-0 bg-ai8ty-black overflow-hidden z-0 ${className}`}
         style={{ opacity: isVisible ? 0.85 : 0 }}
       >
         <div className="stars-container">
@@ -163,7 +163,7 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
 
   return (
     <div 
-      className={`fixed inset-0 -z-10 ${className}`} 
+      className={`fixed inset-0 z-0 ${className}`} 
       style={{ opacity: isVisible ? 0.85 : 0 }}
     >
       <Canvas 

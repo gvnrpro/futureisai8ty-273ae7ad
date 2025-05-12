@@ -1,0 +1,33 @@
+
+/* Process section styles */
+.process-section {
+  @apply cinematic-section bg-ai8ty-gray morph-bg;
+}
+
+.process-heading {
+  @apply text-center mb-16;
+}
+
+.process-steps-container {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-16;
+}
+
+.process-step {
+  @apply bg-ai8ty-black/50 p-8 rounded-lg border border-ai8ty-blue/30 hover:border-ai8ty-violet/50 transition-all duration-300;
+}
+
+.process-step-number {
+  @apply w-12 h-12 bg-ai8ty-blue/20 rounded-full flex items-center justify-center mb-6;
+}
+
+.process-step-title {
+  @apply text-xl mb-4;
+}
+
+.process-step-description {
+  @apply text-ai8ty-white/70;
+}
+
+.process-cta-container {
+  @apply mt-16 text-center;
+}

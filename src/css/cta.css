@@ -1,0 +1,65 @@
+
+/* CTA section styles */
+.cta-section {
+  @apply cinematic-section bg-ai8ty-black;
+}
+
+.cta-content {
+  @apply container mx-auto text-center;
+}
+
+.cta-heading {
+  @apply mb-6 text-4xl md:text-6xl font-bold;
+}
+
+.cta-subheading {
+  @apply text-xl max-w-2xl mx-auto mb-8 text-ai8ty-white/80;
+}
+
+.cta-email {
+  @apply mb-8;
+}
+
+.cta-email-text {
+  @apply text-ai8ty-blue text-lg;
+}
+
+.cta-email-hint {
+  @apply text-sm text-ai8ty-white/60 mt-2;
+}
+
+.cta-button-container {
+  @apply flex justify-center;
+}
+
+.reframe-section {
+  @apply cinematic-section bg-ai8ty-blue;
+}
+
+.reframe-content {
+  @apply container mx-auto text-center;
+}
+
+.reframe-heading {
+  @apply text-ai8ty-black mb-12;
+}
+
+.reframe-quote {
+  @apply max-w-4xl mx-auto bg-ai8ty-black/10 p-12 rounded-lg;
+}
+
+.reframe-quote-text {
+  @apply text-3xl md:text-4xl font-light italic mb-8 text-ai8ty-black;
+}
+
+.reframe-divider {
+  @apply w-16 h-1 bg-ai8ty-black mx-auto;
+}
+
+.reframe-footer {
+  @apply mt-12;
+}
+
+.reframe-footer-text {
+  @apply text-xl mb-8 text-ai8ty-black;
+}

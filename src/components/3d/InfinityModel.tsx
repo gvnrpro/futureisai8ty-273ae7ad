@@ -30,11 +30,11 @@ const InfinityPath: React.FC<InfinityPathProps> = ({
     <mesh ref={meshRef}>
       <torusGeometry args={[1, 0.04, 16, 100]} />
       <meshStandardMaterial 
-        color={color} 
+        color={color}
         emissive={color}
-        emissiveIntensity={0.5} 
-        transparent 
-        opacity={0.8} 
+        emissiveIntensity={0.5}
+        transparent={true}
+        opacity={0.8}
       />
     </mesh>
   );

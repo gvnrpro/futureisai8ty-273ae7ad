@@ -19,16 +19,16 @@ const services = [
     icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 001 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" /></svg>
   },
   {
-    title: "Cinematic Web Design",
-    description: "We craft immersive digital experiences that tell your brand story through motion and interaction.",
-    outcome: "A website that elevates your credibility and drives 2-3x more qualified leads.",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-  },
-  {
-    title: "Copywriting",
+    title: "Strategic Copy",
     description: "We develop emotionally resonant messaging that speaks directly to your audience's desires.",
     outcome: "Copy that converts visitors into believers and drives meaningful action.",
     icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+  },
+  {
+    title: "Cinematic Digital Presence",
+    description: "We craft immersive digital experiences that tell your brand story through motion and interaction.",
+    outcome: "A website that elevates your credibility and drives 2-3x more qualified leads.",
+    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
   },
 ];
 
@@ -110,23 +110,26 @@ const Index: React.FC = () => {
       {/* Hero Section with Improved 3D Background */}
       <section 
         ref={heroRef}
-        className="cinematic-section relative min-h-screen bg-ai8ty-black overflow-visible z-10"
+        className="cinematic-section relative min-h-screen bg-ai8ty-black overflow-hidden z-10"
       >
         {/* Persistent background with different z-index to ensure it stays behind content */}
-        <ParticleBackground className="opacity-70" />
+        <div className="absolute inset-0 z-0">
+          <ParticleBackground className="opacity-70" />
+        </div>
         
-        <div className="container mx-auto flex flex-col items-center justify-center text-center z-10 pt-16">
+        <div className="container z-20 relative mx-auto flex flex-col items-center justify-center text-center pt-16">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
             style={{ y: headerSpring }}
+            className="z-20"
           >
             <KineticText 
-              text="Create the Unforgettable"
+              text="This isn't branding. This is what brands wish they were."
               className="mb-6"
               textClassName="text-ai8ty-white"
-              highlight={["Unforgettable"]}
+              highlight={["brands wish they were"]}
               highlightClassName="text-ai8ty-blue glow-text"
             />
           </motion.div>
@@ -135,10 +138,12 @@ const Index: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
+            className="z-20"
           >
             <p className="text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-ai8ty-white/80">
-              We help ambitious brands, startups, and challenger companies experience
-              an emotionally charged digital presence.
+              You're not here to "look nice."<br />
+              You're here to be impossible to ignore.<br />
+              To burn into memory. To make people stop scrolling—and feel like they missed something important if they don't click.
             </p>
           </motion.div>
           
@@ -146,7 +151,7 @@ const Index: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 mt-6"
+            className="flex flex-col sm:flex-row gap-4 mt-6 z-20"
           >
             <Button 
               className="bg-ai8ty-blue hover:bg-ai8ty-blue/80 text-white px-8 py-6 text-lg cinematic-button touch-ripple hover-scale-subtle"
@@ -158,22 +163,11 @@ const Index: React.FC = () => {
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
-            <Button 
-              variant="outline" 
-              className="border-ai8ty-white/30 text-ai8ty-white hover:bg-ai8ty-white/10 px-8 py-6 text-lg touch-ripple hover-scale-subtle"
-              asChild
-              onClick={handleCtaClick}
-            >
-              <Link to="/case-studies">
-                <Eye className="mr-2 h-5 w-5" />
-                View our work
-              </Link>
-            </Button>
           </motion.div>
         </div>
         
         <motion.div 
-          className="absolute bottom-16 left-1/2 -translate-x-1/2"
+          className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20"
           animate={{ 
             y: [0, 10, 0],
           }}
@@ -201,46 +195,51 @@ const Index: React.FC = () => {
                 transition={{ duration: 0.6 }}
               >
                 <KineticText 
-                  text="We position brands at the forefront"
-                  className="mb-6"
-                  highlight={["forefront"]}
+                  text="Most "agencies" are factories."
+                  className="mb-2"
+                  highlight={["factories"]}
                   highlightClassName="text-ai8ty-blue glow-text"
+                />
+                <KineticText 
+                  text="Templates. Packages. Smile-and-send PDFs."
+                  className="mb-6"
+                  textClassName="text-lg md:text-xl"
+                  highlight={["Templates"]}
+                  highlightClassName="text-ai8ty-violet"
                 />
               </motion.div>
               
-              <motion.p
+              <motion.div
                 className="text-xl mb-6 text-ai8ty-white/80"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                In a digital landscape crowded with noise, your brand deserves to be unmistakable.
-                We don't just build websites—we craft emotional digital journeys that capture attention
-                and convert visitors into believers.
-              </motion.p>
+                <p className="mb-3">They tell you what's trending.</p>
+                <p className="mb-3">We tell you what's next.</p>
+                <p className="mb-3">AI8TY exists for the brand builder who doesn't just want results—</p>
+                <p className="mb-3">They want revenge.</p>
+                <p>On mediocrity. On obscurity. On being slept on.</p>
+              </motion.div>
               
-              <motion.ul
-                className="space-y-3 text-ai8ty-white/80"
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.6, delay: 0.4, staggerChildren: 0.1 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
               >
-                {["Strategic brand positioning", "Cinematic web experiences", "Emotion-driven conversions"].map((item, i) => (
-                  <motion.li 
-                    key={i} 
-                    className="flex items-center"
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: 0.4 + (i * 0.1) }}
-                  >
-                    <span className="inline-block w-2 h-2 bg-ai8ty-blue rounded-full mr-3"></span>
-                    {item}
-                  </motion.li>
-                ))}
-              </motion.ul>
+                <Button 
+                  className="bg-ai8ty-blue hover:bg-ai8ty-blue/80 text-white px-6 py-5 text-lg cinematic-button touch-ripple hover-scale-subtle"
+                  asChild
+                  onClick={handleCtaClick}
+                >
+                  <Link to="/contact">
+                    I want my power back
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </motion.div>
             </div>
             
             <motion.div 
@@ -256,7 +255,7 @@ const Index: React.FC = () => {
         </div>
       </section>
 
-      {/* Problem Section with animation */}
+      {/* Solution Section with improved animation */}
       <section className="cinematic-section bg-ai8ty-black">
         <div className="container mx-auto">
           <motion.div
@@ -266,52 +265,97 @@ const Index: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <KineticText 
-              text="The Problem"
+              text="We make brands that people feel in their chest."
               className="text-center mb-16"
-              highlight={["Problem"]}
-              highlightClassName="text-ai8ty-violet glow-text"
+              highlight={["feel in their chest"]}
+              highlightClassName="text-ai8ty-blue glow-text"
             />
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                num: "01",
-                title: "Generic Digital Presence",
-                desc: "Most businesses blend into the digital noise with cookie-cutter websites that fail to create emotional connections."
-              },
-              {
-                num: "02",
-                title: "Low Conversion Rates",
-                desc: "Beautiful designs aren't enough when they fail to convert visitors into customers or drive meaningful action."
-              },
-              {
-                num: "03",
-                title: "Tech Without Strategy",
-                desc: "Flashy technology without strategic direction leads to impressive yet ineffective digital experiences."
-              }
-            ].map((problem, i) => (
-              <motion.div
-                key={i}
-                className="bg-ai8ty-gray/20 p-8 rounded-lg border border-ai8ty-gray/30 hover:border-ai8ty-blue/50 transition-all duration-300 holographic hover-tilt"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.6, delay: 0.2 * i }}
-                whileHover={{ y: -10, transition: { duration: 0.3 } }}
-              >
-                <div className="w-12 h-12 bg-ai8ty-blue/20 rounded-full flex items-center justify-center mb-6">
-                  <span className="text-xl font-bold text-ai8ty-blue">{problem.num}</span>
-                </div>
-                <h4 className="text-xl mb-4 flicker-text">{problem.title}</h4>
-                <p className="text-ai8ty-white/70">{problem.desc}</p>
-              </motion.div>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-10%" }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="text-xl mb-6 text-ai8ty-white/80"
+            >
+              <ul className="space-y-4">
+                <li>• We don't do "pretty."</li>
+                <li>• We do unforgettable.</li>
+                <li>• We don't do "functional."</li>
+                <li>• We do revenue, gravity, heat.</li>
+              </ul>
+            </motion.div>
+            
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-10%" }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-xl mb-6 text-ai8ty-white/80"
+            >
+              <p className="mb-4">You'll walk away with:</p>
+              <ul className="space-y-4">
+                <li>• A brand that hits like a mood.</li>
+                <li>• A site that makes people assume you're funded.</li>
+                <li>• Messaging that stalks their mind for days.</li>
+              </ul>
+            </motion.div>
           </div>
+          
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="mb-16"
+          >
+            <h4 className="text-center text-2xl mb-8">Our work lives at the crossroads of:</h4>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {services.map((service, i) => (
+                <AnimatedServiceCard 
+                  key={i}
+                  title={service.title}
+                  description={service.description}
+                  outcome={service.outcome}
+                  index={i}
+                  icon={service.icon}
+                />
+              ))}
+              <AnimatedServiceCard 
+                title="AI-enhanced Systems"
+                description="We leverage cutting-edge AI to amplify your brand's reach and effectiveness."
+                outcome="Systems that scale your impact while maintaining your unique voice."
+                index={3}
+                icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>}
+              />
+            </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+            className="flex justify-center"
+          >
+            <Button 
+              className="bg-ai8ty-blue hover:bg-ai8ty-blue/80 text-white px-8 py-6 text-lg cinematic-button touch-ripple hover-scale-subtle"
+              asChild
+              onClick={handleCtaClick}
+            >
+              <Link to="/contact">
+                Build the brand they'll wish was theirs
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+          </motion.div>
         </div>
       </section>
 
-      {/* Solution Section with improved animation */}
+      {/* Process Section with improved animation */}
       <section className="cinematic-section bg-ai8ty-gray morph-bg">
         <div className="container mx-auto">
           <motion.div
@@ -321,143 +365,104 @@ const Index: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <KineticText 
-              text="The Solution"
-              className="text-center mb-6"
-              highlight={["Solution"]}
+              text="No fluff. Just fire."
+              className="text-center mb-16"
+              highlight={["fire"]}
               highlightClassName="text-ai8ty-blue glow-text"
             />
           </motion.div>
           
-          <motion.p 
-            className="text-center text-xl max-w-3xl mx-auto mb-16 text-ai8ty-white/80"
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16">
+            {[
+              {
+                number: "01",
+                title: "We Listen Like Analysts",
+                desc: "We dissect the pain behind the problem.",
+              },
+              {
+                number: "02",
+                title: "We Think Like Architects",
+                desc: "Every decision. Every pixel. Every word—deliberate.",
+              },
+              {
+                number: "03",
+                title: "We Execute Like Artists",
+                desc: "The result? Something that doesn't just look different. It feels different.",
+              }
+            ].map((step, i) => (
+              <motion.div
+                key={i}
+                className="bg-ai8ty-black/50 p-8 rounded-lg border border-ai8ty-blue/30 hover:border-ai8ty-violet/50 transition-all duration-300 holographic hover-tilt"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ duration: 0.6, delay: 0.2 * i }}
+              >
+                <div className="w-12 h-12 bg-ai8ty-blue/20 rounded-full flex items-center justify-center mb-6">
+                  <span className="text-xl font-bold text-ai8ty-blue">{step.number}</span>
+                </div>
+                <h4 className="text-xl mb-4">{step.title}</h4>
+                <p className="text-ai8ty-white/70">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+          
+          <motion.div
+            className="mt-16 text-center"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >
+            <Button 
+              className="bg-ai8ty-blue hover:bg-ai8ty-blue/80 text-white px-8 py-6 text-lg cinematic-button touch-ripple hover-scale-subtle"
+              asChild
+              onClick={handleCtaClick}
+            >
+              <Link to="/contact">
+                Let's disrupt something
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Link>
+            </Button>
+          </motion.div>
+        </div>
+      </section>
+      
+      {/* Social Proof Section with enhanced interaction */}
+      <section className="cinematic-section bg-ai8ty-black gradient-shift">
+        <div className="container mx-auto">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.6 }}
+          >
+            <KineticText 
+              text="We're not for everyone. Just the ones who win."
+              className="text-center mb-16"
+              highlight={["win"]}
+              highlightClassName="text-ai8ty-blue glow-text"
+            />
+          </motion.div>
+          
+          <motion.div
+            className="max-w-3xl mx-auto text-center mb-16"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            We combine strategic thinking with cinematic design to create digital experiences
-            that don't just look amazing—they perform.
-          </motion.p>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <motion.div 
-              className="perspective"
-              initial={{ opacity: 0, rotateY: -10 }}
-              whileInView={{ opacity: 1, rotateY: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <div className="aspect-video bg-ai8ty-black/50 overflow-hidden rounded-lg border border-ai8ty-blue/30 relative group preserve-3d hover-scale-subtle">
-                <div className="absolute inset-0 flex items-center justify-center backface-hidden transform transition-transform duration-500 ease-out">
-                  <span className="text-4xl text-ai8ty-blue opacity-30 group-hover:opacity-60 transition-opacity duration-300 glow-text">CINEMATIC PREVIEW</span>
-                </div>
-              </div>
-            </motion.div>
+            <p className="text-xl mb-6 text-ai8ty-white/80">
+              We've rebranded legacy players.<br />
+              Helped underdogs skip the line.<br />
+              And created presence for names you now recognize.
+            </p>
             
-            <div>
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.6, delay: 0.5 }}
-                className="draw-line"
-              >
-                <h3 className="mb-6">Cinematic Web Experiences</h3>
-              </motion.div>
-              
-              <motion.p 
-                className="text-xl mb-8 text-ai8ty-white/80"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              >
-                We craft websites that tell your brand story through motion, interaction,
-                and emotional design. Every pixel serves a purpose—to create unforgettable
-                impressions that convert.
-              </motion.p>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.6, delay: 0.7 }}
-              >
-                <Button 
-                  className="bg-ai8ty-blue hover:bg-ai8ty-blue/80 text-white px-6 py-5 text-lg cinematic-button touch-ripple hover-scale-subtle"
-                  asChild
-                  onClick={handleCtaClick}
-                >
-                  <Link to="/arsenal">
-                    Explore our arsenal
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section with enhanced animation */}
-      <section className="cinematic-section bg-ai8ty-black">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.6 }}
-          >
-            <KineticText 
-              text="The Arsenal"
-              className="text-center mb-16"
-              highlight={["Arsenal"]}
-              highlightClassName="text-ai8ty-blue glow-text"
-            />
-          </motion.div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service, i) => (
-              <AnimatedServiceCard 
-                key={i}
-                title={service.title}
-                description={service.description}
-                outcome={service.outcome}
-                index={i}
-                icon={service.icon}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-      
-      {/* Case Studies Preview with enhanced interaction */}
-      <section className="cinematic-section bg-ai8ty-gray gradient-shift">
-        <div className="container mx-auto">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-10%" }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col md:flex-row items-center justify-between mb-16"
-          >
-            <KineticText 
-              text="Featured Work"
-              highlight={["Featured"]}
-              highlightClassName="text-ai8ty-cyan glow-text"
-            />
-            
-            <Button 
-              variant="outline" 
-              className="border-ai8ty-white/30 mt-4 md:mt-0 text-ai8ty-white hover:bg-ai8ty-white/10 touch-ripple hover-scale-subtle"
-              asChild
-              onClick={handleCtaClick}
-            >
-              <Link to="/case-studies">
-                View all case studies
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
+            <p className="text-xl mb-6 text-ai8ty-white/80">
+              No fake countdowns. No fake "only 3 left."<br />
+              Just actual work that has people saying:<br />
+              "Who the f* made this?"
+            </p>
           </motion.div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -481,7 +486,7 @@ const Index: React.FC = () => {
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-ai8ty-black mb-12">Change Your Perspective</h2>
+            <h2 className="text-ai8ty-black mb-12">Most brands get seen.<br />Yours should be felt.</h2>
           </motion.div>
           
           <motion.div
@@ -491,12 +496,9 @@ const Index: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.3 }}
             className="max-w-4xl mx-auto bg-ai8ty-black/10 p-12 rounded-lg floating"
           >
-            <KineticLetters
-              text={"\"The brands that thrive tomorrow won't just be seen—they'll be felt.\""}
-              className="text-3xl md:text-4xl font-light italic mb-8 text-ai8ty-black"
-              textClassName="text-ai8ty-black"
-              delay={0.5}
-            />
+            <p className="text-3xl md:text-4xl font-light italic mb-8 text-ai8ty-black">
+              "The brands that thrive tomorrow won't just be seen—they'll be felt."
+            </p>
             
             <div className="flex items-center justify-center">
               <motion.div 
@@ -507,6 +509,19 @@ const Index: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.8 }}
               ></motion.div>
             </div>
+          </motion.div>
+          
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="mt-12"
+          >
+            <p className="text-xl mb-8 text-ai8ty-black">
+              You're not here to fit in.<br />
+              You're here to arrive. Loud, clear, and untouchable.
+            </p>
           </motion.div>
         </div>
       </section>
@@ -521,9 +536,9 @@ const Index: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <KineticText 
-              text="Ready to be Unforgettable?"
+              text="Most brands get seen. Yours should be felt."
               className="mb-6"
-              highlight={["Unforgettable?"]}
+              highlight={["felt"]}
               highlightClassName="text-ai8ty-violet glow-text"
             />
           </motion.div>
@@ -535,7 +550,8 @@ const Index: React.FC = () => {
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            Let's create a digital experience that captivates your audience and drives your business forward.
+            You're not here to fit in.<br />
+            You're here to arrive. Loud, clear, and untouchable.
           </motion.p>
           
           <motion.div
@@ -545,8 +561,11 @@ const Index: React.FC = () => {
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.6, delay: 0.3 }}
           >
-            <span className="text-ai8ty-blue text-lg">futureis@ai8ty.com</span>
-            <span className="terminal-cursor"></span>
+            <div>
+              <span className="text-ai8ty-blue text-lg">futureis@ai8ty.com</span>
+              <span className="terminal-cursor"></span>
+            </div>
+            <p className="text-sm text-ai8ty-white/60 mt-2">You know what to do.</p>
           </motion.div>
           
           <motion.div
@@ -561,7 +580,7 @@ const Index: React.FC = () => {
               onClick={handleCtaClick}
             >
               <Link to="/contact">
-                Make me unforgettable
+                Let's make something they can't copy
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Link>
             </Button>
