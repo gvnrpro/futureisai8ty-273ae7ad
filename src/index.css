@@ -162,13 +162,149 @@
   }
 
   .reactive-cursor {
-    @apply fixed w-8 h-8 rounded-full pointer-events-none z-50 mix-blend-difference transition-all duration-100 ease-out;
+    @apply fixed w-8 h-8 rounded-full pointer-events-none z-50 mix-blend-difference transition-all duration-100 ease-out flex items-center justify-center text-white;
     transform: translate(-50%, -50%);
   }
 
   .reactive-cursor-dot {
     @apply fixed w-2 h-2 rounded-full pointer-events-none z-50 mix-blend-difference transition-all duration-75 ease-out;
     transform: translate(-50%, -50%);
+  }
+
+  /* CSS Fallback Animations for non-WebGL browsers */
+  .stars-container {
+    @apply absolute inset-0 overflow-hidden;
+  }
+
+  .star {
+    @apply absolute w-1 h-1 bg-white rounded-full opacity-75;
+    box-shadow: 0 0 10px 2px rgba(255, 255, 255, 0.4);
+    animation: twinkle-animation infinite linear, move-animation infinite linear;
+  }
+
+  @keyframes twinkle-animation {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 0.8; transform: scale(1.2); }
+  }
+
+  @keyframes move-animation {
+    0% { transform: translateX(0) translateY(0); }
+    100% { transform: translateX(-20px) translateY(20px); }
+  }
+
+  /* Holographic effect for cards */
+  .holographic {
+    @apply relative overflow-hidden;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 0, 79, 0.1) 0%,
+      rgba(0, 0, 0, 0) 50%,
+      rgba(255, 0, 79, 0.1) 100%
+    );
+  }
+
+  .holographic::before {
+    @apply absolute inset-0 pointer-events-none opacity-0;
+    content: "";
+    background: linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 0, 79, 0.1) 25%,
+      rgba(255, 0, 79, 0.3) 50%,
+      rgba(255, 0, 79, 0.1) 75%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transition: opacity 0.5s ease;
+  }
+
+  .holographic:hover::before {
+    @apply opacity-100;
+    animation: holographic-sweep 2s ease infinite;
+  }
+
+  @keyframes holographic-sweep {
+    0% {
+      background-position: -100% 0%;
+    }
+    100% {
+      background-position: 200% 0%;
+    }
+  }
+
+  /* Cinematic button pulse effect */
+  .cinematic-button {
+    @apply relative bg-ai8ty-pink text-white overflow-hidden;
+  }
+
+  .cinematic-button::after {
+    @apply absolute inset-0 opacity-0 pointer-events-none;
+    content: '';
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 70%);
+    transform: scale(0);
+    transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+  }
+
+  .cinematic-button:hover::after {
+    @apply opacity-30;
+    transform: scale(2);
+  }
+
+  .cinematic-button:active::after {
+    @apply opacity-50;
+    transform: scale(0);
+    transition: transform 0.05s ease-out, opacity 0.05s ease-out;
+  }
+
+  /* Mobile touch ripple effect */
+  .touch-ripple {
+    @apply relative overflow-hidden;
+  }
+
+  .touch-ripple::before {
+    @apply absolute inset-0 pointer-events-none;
+    content: '';
+    background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255, 0, 79, 0.4) 0%, rgba(255, 0, 79, 0) 50%);
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  .touch-ripple.touched::before {
+    animation: touch-ripple-animation 0.8s ease-out;
+  }
+
+  @keyframes touch-ripple-animation {
+    0% {
+      opacity: 1;
+      transform: scale(0);
+    }
+    100% {
+      opacity: 0;
+      transform: scale(3);
+    }
+  }
+
+  /* Text reveal animation */
+  .text-reveal-mask {
+    @apply relative overflow-hidden inline-block;
+  }
+
+  .text-reveal-mask::after {
+    @apply absolute inset-0 bg-ai8ty-black;
+    content: '';
+    transform: translateX(-100%);
+    animation: text-reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+  }
+
+  @keyframes text-reveal {
+    0% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(100%);
+    }
   }
 }
 
@@ -186,5 +322,29 @@
   .cinematic-reveal.revealed {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  .focus-outline-none {
+    @apply outline-none ring-0;
+  }
+
+  .focus-outline-none:focus {
+    @apply outline-none ring-0;
+  }
+
+  .perspective {
+    perspective: 1000px;
+  }
+
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .rotate-y-180 {
+    transform: rotateY(180deg);
   }
 }
