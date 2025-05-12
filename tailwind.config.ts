@@ -55,9 +55,11 @@ export default {
         },
         ai8ty: {
           black: "#000000",
-          pink: "#FF004F",
-          white: "#FFFFFF",
-          gray: "#222222",
+          blue: "#00B4F0",   // New Ion Blue
+          violet: "#9E00FF", // New Infrared Violet
+          cyan: "#23F0A2",   // New Plasma Cyan
+          white: "#FFFFFF",  // Snow White
+          gray: "#222222",   // Kept for compatibility
         }
       },
       borderRadius: {
@@ -118,6 +120,18 @@ export default {
           "0%, 100%": { transform: "translateY(0)" },
           "50%": { transform: "translateY(-10px)" },
         },
+        "pulse-glow": {
+          "0%, 100%": { 
+            boxShadow: "0 0 5px rgba(0, 180, 240, 0.7), 0 0 10px rgba(0, 180, 240, 0.5)" 
+          },
+          "50%": { 
+            boxShadow: "0 0 15px rgba(0, 180, 240, 0.9), 0 0 20px rgba(0, 180, 240, 0.7)" 
+          },
+        },
+        "text-shimmer": {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -133,9 +147,17 @@ export default {
         "infinity-spin": "infinity-spin 15s linear infinite",
         "pulse": "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
         "float": "float 5s ease-in-out infinite",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        "text-shimmer": "text-shimmer 3s ease-in-out infinite",
       },
       fontFamily: {
         sans: ["Inter", "sans-serif"],
+      },
+      backgroundImage: {
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "graphite-gradient": "linear-gradient(180deg, #2D2D2D 0%, #111111 100%)",
+        "blue-violet-gradient": "linear-gradient(135deg, #00B4F0 0%, #9E00FF 100%)",
+        "plasma-gradient": "linear-gradient(180deg, #23F0A2 0%, rgba(35, 240, 162, 0.3) 100%)",
       },
     },
   },

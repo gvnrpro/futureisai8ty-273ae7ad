@@ -15,7 +15,7 @@ interface InfinityPathProps {
 const InfinityPath: React.FC<InfinityPathProps> = ({ 
   rotation = 0, 
   delay = 0,
-  color = "#FF004F"
+  color = "#00B4F0" // New Ion Blue color
 }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   
@@ -111,12 +111,12 @@ const InfinityModel: React.FC<InfinityModelProps> = ({
 
     return (
       <group ref={groupRef}>
-        <InfinityPath rotation={0} delay={0} />
-        <InfinityPath rotation={Math.PI / 6} delay={0.2} />
-        <InfinityPath rotation={Math.PI / 3} delay={0.4} />
-        <InfinityPath rotation={Math.PI / 2} delay={0.6} />
-        <InfinityPath rotation={2 * Math.PI / 3} delay={0.8} />
-        <InfinityPath rotation={5 * Math.PI / 6} delay={1.0} />
+        <InfinityPath rotation={0} delay={0} color="#00B4F0" /> {/* Ion Blue */}
+        <InfinityPath rotation={Math.PI / 6} delay={0.2} color="#00B4F0" /> {/* Ion Blue */}
+        <InfinityPath rotation={Math.PI / 3} delay={0.4} color="#9E00FF" /> {/* Infrared Violet */}
+        <InfinityPath rotation={Math.PI / 2} delay={0.6} color="#00B4F0" /> {/* Ion Blue */}
+        <InfinityPath rotation={2 * Math.PI / 3} delay={0.8} color="#9E00FF" /> {/* Infrared Violet */}
+        <InfinityPath rotation={5 * Math.PI / 6} delay={1.0} color="#00B4F0" /> {/* Ion Blue */}
       </group>
     );
   };
@@ -125,12 +125,12 @@ const InfinityModel: React.FC<InfinityModelProps> = ({
     // CSS fallback for non-WebGL browsers
     return (
       <div ref={containerRef} className={`infinity-container ${className}`}>
-        <div className="infinity-path" style={{ transform: 'rotate(0deg)', animationDelay: '0s' }}></div>
-        <div className="infinity-path" style={{ transform: 'rotate(30deg)', animationDelay: '0.2s' }}></div>
-        <div className="infinity-path" style={{ transform: 'rotate(60deg)', animationDelay: '0.4s' }}></div>
-        <div className="infinity-path" style={{ transform: 'rotate(90deg)', animationDelay: '0.6s' }}></div>
-        <div className="infinity-path" style={{ transform: 'rotate(120deg)', animationDelay: '0.8s' }}></div>
-        <div className="infinity-path" style={{ transform: 'rotate(150deg)', animationDelay: '1s' }}></div>
+        <div className="infinity-path" style={{ transform: 'rotate(0deg)', animationDelay: '0s', borderColor: '#00B4F0' }}></div>
+        <div className="infinity-path" style={{ transform: 'rotate(30deg)', animationDelay: '0.2s', borderColor: '#00B4F0' }}></div>
+        <div className="infinity-path" style={{ transform: 'rotate(60deg)', animationDelay: '0.4s', borderColor: '#9E00FF' }}></div>
+        <div className="infinity-path" style={{ transform: 'rotate(90deg)', animationDelay: '0.6s', borderColor: '#00B4F0' }}></div>
+        <div className="infinity-path" style={{ transform: 'rotate(120deg)', animationDelay: '0.8s', borderColor: '#9E00FF' }}></div>
+        <div className="infinity-path" style={{ transform: 'rotate(150deg)', animationDelay: '1s', borderColor: '#00B4F0' }}></div>
       </div>
     );
   }
@@ -142,7 +142,7 @@ const InfinityModel: React.FC<InfinityModelProps> = ({
       <Canvas camera={{ position: [0, 0, 2.5], fov: 50 }}>
         <ambientLight intensity={0.5} />
         <pointLight position={[10, 10, 10]} intensity={1} />
-        <pointLight position={[-10, -10, -10]} color="#FF004F" intensity={0.5} />
+        <pointLight position={[-10, -10, -10]} color="#00B4F0" intensity={0.5} /> {/* Ion Blue light */}
         <InfinityScene />
         {!interactive && <OrbitControls enableZoom={false} enablePan={false} />}
       </Canvas>

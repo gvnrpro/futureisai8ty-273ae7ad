@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
@@ -15,19 +16,19 @@ const services = [
     title: "Identity Design",
     description: "We create bold, memorable brand identities that communicate your unique promise.",
     outcome: "A brand identity that creates instant recognition and emotional connection.",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 001 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" /></svg>
+    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 001 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" /></svg>
   },
   {
     title: "Cinematic Web Design",
     description: "We craft immersive digital experiences that tell your brand story through motion and interaction.",
     outcome: "A website that elevates your credibility and drives 2-3x more qualified leads.",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
   },
   {
     title: "Copywriting",
     description: "We develop emotionally resonant messaging that speaks directly to your audience's desires.",
     outcome: "Copy that converts visitors into believers and drives meaningful action.",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-pink" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
+    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>
   },
 ];
 
@@ -70,6 +71,9 @@ const Index: React.FC = () => {
   const parallaxY2 = useTransform(scrollY, [0, 1000], [0, -150]);
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
   
+  // Animation properties
+  const [animationComplete, setAnimationComplete] = useState(false);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     setIsMounted(true);
@@ -77,6 +81,13 @@ const Index: React.FC = () => {
     if (heroRef.current) {
       heroHeight.current = heroRef.current.offsetHeight;
     }
+
+    // Ensure the animation completes
+    const timer = setTimeout(() => {
+      setAnimationComplete(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const handleCtaClick = (e: React.MouseEvent) => {
@@ -96,14 +107,15 @@ const Index: React.FC = () => {
 
   return (
     <div className="flex flex-col">
-      {/* Hero Section with 3D Background */}
+      {/* Hero Section with Improved 3D Background */}
       <section 
         ref={heroRef}
-        className="cinematic-section relative h-screen bg-ai8ty-black overflow-hidden"
+        className="cinematic-section relative min-h-screen bg-ai8ty-black overflow-visible z-10"
       >
-        <ParticleBackground className="opacity-50" />
+        {/* Persistent background with different z-index to ensure it stays behind content */}
+        <ParticleBackground className="opacity-70" />
         
-        <div className="container mx-auto flex flex-col items-center justify-center text-center z-10">
+        <div className="container mx-auto flex flex-col items-center justify-center text-center z-10 pt-16">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -115,6 +127,7 @@ const Index: React.FC = () => {
               className="mb-6"
               textClassName="text-ai8ty-white"
               highlight={["Unforgettable"]}
+              highlightClassName="text-ai8ty-blue glow-text"
             />
           </motion.div>
           
@@ -136,7 +149,7 @@ const Index: React.FC = () => {
             className="flex flex-col sm:flex-row gap-4 mt-6"
           >
             <Button 
-              className="bg-ai8ty-pink hover:bg-ai8ty-pink/80 text-white px-8 py-6 text-lg cinematic-button touch-ripple"
+              className="bg-ai8ty-blue hover:bg-ai8ty-blue/80 text-white px-8 py-6 text-lg cinematic-button touch-ripple hover-scale-subtle"
               asChild
               onClick={handleCtaClick}
             >
@@ -147,7 +160,7 @@ const Index: React.FC = () => {
             </Button>
             <Button 
               variant="outline" 
-              className="border-ai8ty-white/30 text-ai8ty-white hover:bg-ai8ty-white/10 px-8 py-6 text-lg touch-ripple"
+              className="border-ai8ty-white/30 text-ai8ty-white hover:bg-ai8ty-white/10 px-8 py-6 text-lg touch-ripple hover-scale-subtle"
               asChild
               onClick={handleCtaClick}
             >
@@ -171,13 +184,13 @@ const Index: React.FC = () => {
           }}
         >
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="#00B4F0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         </motion.div>
       </section>
 
-      {/* Positioning Section */}
-      <section className="cinematic-section bg-ai8ty-gray">
+      {/* Positioning Section with improved animation */}
+      <section className="cinematic-section bg-ai8ty-gray gradient-shift">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -191,6 +204,7 @@ const Index: React.FC = () => {
                   text="We position brands at the forefront"
                   className="mb-6"
                   highlight={["forefront"]}
+                  highlightClassName="text-ai8ty-blue glow-text"
                 />
               </motion.div>
               
@@ -222,7 +236,7 @@ const Index: React.FC = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: 0.4 + (i * 0.1) }}
                   >
-                    <span className="inline-block w-2 h-2 bg-ai8ty-pink rounded-full mr-3"></span>
+                    <span className="inline-block w-2 h-2 bg-ai8ty-blue rounded-full mr-3"></span>
                     {item}
                   </motion.li>
                 ))}
@@ -242,7 +256,7 @@ const Index: React.FC = () => {
         </div>
       </section>
 
-      {/* Problem Section */}
+      {/* Problem Section with animation */}
       <section className="cinematic-section bg-ai8ty-black">
         <div className="container mx-auto">
           <motion.div
@@ -255,6 +269,7 @@ const Index: React.FC = () => {
               text="The Problem"
               className="text-center mb-16"
               highlight={["Problem"]}
+              highlightClassName="text-ai8ty-violet glow-text"
             />
           </motion.div>
           
@@ -278,17 +293,17 @@ const Index: React.FC = () => {
             ].map((problem, i) => (
               <motion.div
                 key={i}
-                className="bg-ai8ty-gray/20 p-8 rounded-lg border border-ai8ty-gray/30 hover:border-ai8ty-pink/50 transition-all duration-300 holographic"
+                className="bg-ai8ty-gray/20 p-8 rounded-lg border border-ai8ty-gray/30 hover:border-ai8ty-blue/50 transition-all duration-300 holographic hover-tilt"
                 initial={{ opacity: 0, y: 50 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
                 transition={{ duration: 0.6, delay: 0.2 * i }}
                 whileHover={{ y: -10, transition: { duration: 0.3 } }}
               >
-                <div className="w-12 h-12 bg-ai8ty-pink/20 rounded-full flex items-center justify-center mb-6">
-                  <span className="text-xl font-bold text-ai8ty-pink">{problem.num}</span>
+                <div className="w-12 h-12 bg-ai8ty-blue/20 rounded-full flex items-center justify-center mb-6">
+                  <span className="text-xl font-bold text-ai8ty-blue">{problem.num}</span>
                 </div>
-                <h4 className="text-xl mb-4">{problem.title}</h4>
+                <h4 className="text-xl mb-4 flicker-text">{problem.title}</h4>
                 <p className="text-ai8ty-white/70">{problem.desc}</p>
               </motion.div>
             ))}
@@ -296,8 +311,8 @@ const Index: React.FC = () => {
         </div>
       </section>
 
-      {/* Solution Section */}
-      <section className="cinematic-section bg-ai8ty-gray">
+      {/* Solution Section with improved animation */}
+      <section className="cinematic-section bg-ai8ty-gray morph-bg">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
@@ -309,6 +324,7 @@ const Index: React.FC = () => {
               text="The Solution"
               className="text-center mb-6"
               highlight={["Solution"]}
+              highlightClassName="text-ai8ty-blue glow-text"
             />
           </motion.div>
           
@@ -331,9 +347,9 @@ const Index: React.FC = () => {
               viewport={{ once: true, margin: "-10%" }}
               transition={{ duration: 0.8, delay: 0.4 }}
             >
-              <div className="aspect-video bg-ai8ty-black/50 overflow-hidden rounded-lg border border-ai8ty-pink/30 relative group preserve-3d">
+              <div className="aspect-video bg-ai8ty-black/50 overflow-hidden rounded-lg border border-ai8ty-blue/30 relative group preserve-3d hover-scale-subtle">
                 <div className="absolute inset-0 flex items-center justify-center backface-hidden transform transition-transform duration-500 ease-out">
-                  <span className="text-4xl text-ai8ty-pink opacity-30 group-hover:opacity-60 transition-opacity duration-300">CINEMATIC PREVIEW</span>
+                  <span className="text-4xl text-ai8ty-blue opacity-30 group-hover:opacity-60 transition-opacity duration-300 glow-text">CINEMATIC PREVIEW</span>
                 </div>
               </div>
             </motion.div>
@@ -344,6 +360,7 @@ const Index: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
                 transition={{ duration: 0.6, delay: 0.5 }}
+                className="draw-line"
               >
                 <h3 className="mb-6">Cinematic Web Experiences</h3>
               </motion.div>
@@ -367,7 +384,7 @@ const Index: React.FC = () => {
                 transition={{ duration: 0.6, delay: 0.7 }}
               >
                 <Button 
-                  className="bg-ai8ty-pink hover:bg-ai8ty-pink/80 text-white px-6 py-5 text-lg cinematic-button touch-ripple"
+                  className="bg-ai8ty-blue hover:bg-ai8ty-blue/80 text-white px-6 py-5 text-lg cinematic-button touch-ripple hover-scale-subtle"
                   asChild
                   onClick={handleCtaClick}
                 >
@@ -382,7 +399,7 @@ const Index: React.FC = () => {
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* Services Section with enhanced animation */}
       <section className="cinematic-section bg-ai8ty-black">
         <div className="container mx-auto">
           <motion.div
@@ -395,6 +412,7 @@ const Index: React.FC = () => {
               text="The Arsenal"
               className="text-center mb-16"
               highlight={["Arsenal"]}
+              highlightClassName="text-ai8ty-blue glow-text"
             />
           </motion.div>
           
@@ -413,8 +431,8 @@ const Index: React.FC = () => {
         </div>
       </section>
       
-      {/* Case Studies Preview */}
-      <section className="cinematic-section bg-ai8ty-gray">
+      {/* Case Studies Preview with enhanced interaction */}
+      <section className="cinematic-section bg-ai8ty-gray gradient-shift">
         <div className="container mx-auto">
           <motion.div
             initial={{ opacity: 0 }}
@@ -426,11 +444,12 @@ const Index: React.FC = () => {
             <KineticText 
               text="Featured Work"
               highlight={["Featured"]}
+              highlightClassName="text-ai8ty-cyan glow-text"
             />
             
             <Button 
               variant="outline" 
-              className="border-ai8ty-white/30 mt-4 md:mt-0 text-ai8ty-white hover:bg-ai8ty-white/10 touch-ripple"
+              className="border-ai8ty-white/30 mt-4 md:mt-0 text-ai8ty-white hover:bg-ai8ty-white/10 touch-ripple hover-scale-subtle"
               asChild
               onClick={handleCtaClick}
             >
@@ -453,8 +472,8 @@ const Index: React.FC = () => {
         </div>
       </section>
 
-      {/* Emotional Reframe Section */}
-      <section className="cinematic-section bg-ai8ty-pink">
+      {/* Emotional Reframe Section with floating animation */}
+      <section className="cinematic-section bg-ai8ty-blue">
         <div className="container mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -470,7 +489,7 @@ const Index: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="max-w-4xl mx-auto bg-ai8ty-black/10 p-12 rounded-lg"
+            className="max-w-4xl mx-auto bg-ai8ty-black/10 p-12 rounded-lg floating"
           >
             <KineticLetters
               text={"\"The brands that thrive tomorrow won't just be seen—they'll be felt.\""}
@@ -492,7 +511,7 @@ const Index: React.FC = () => {
         </div>
       </section>
 
-      {/* Call to Action Section */}
+      {/* Call to Action Section with terminal-style animation */}
       <section className="cinematic-section bg-ai8ty-black">
         <div className="container mx-auto text-center">
           <motion.div
@@ -505,11 +524,12 @@ const Index: React.FC = () => {
               text="Ready to be Unforgettable?"
               className="mb-6"
               highlight={["Unforgettable?"]}
+              highlightClassName="text-ai8ty-violet glow-text"
             />
           </motion.div>
           
           <motion.p 
-            className="text-xl max-w-2xl mx-auto mb-12 text-ai8ty-white/80"
+            className="text-xl max-w-2xl mx-auto mb-8 text-ai8ty-white/80"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
@@ -519,13 +539,24 @@ const Index: React.FC = () => {
           </motion.p>
           
           <motion.div
+            className="mb-8"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, margin: "-10%" }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            <span className="text-ai8ty-blue text-lg">futureis@ai8ty.com</span>
+            <span className="terminal-cursor"></span>
+          </motion.div>
+          
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-10%" }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             <Button 
-              className="bg-ai8ty-pink hover:bg-ai8ty-pink/80 text-white px-8 py-6 text-lg cinematic-button touch-ripple"
+              className="bg-ai8ty-blue hover:bg-ai8ty-blue/80 text-white px-8 py-6 text-lg cinematic-button touch-ripple glow-box hover-scale-subtle"
               asChild
               onClick={handleCtaClick}
             >

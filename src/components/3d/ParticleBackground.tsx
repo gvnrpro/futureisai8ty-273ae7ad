@@ -16,9 +16,23 @@ const generatePoints = (count: number) => {
     points[i3 + 1] = (Math.random() - 0.5) * 20;
     points[i3 + 2] = (Math.random() - 0.5) * 20;
     
-    colors[i3] = Math.random();
-    colors[i3 + 1] = Math.random();
-    colors[i3 + 2] = Math.random();
+    // Set colors using the new color scheme
+    if (Math.random() > 0.98) {
+      // Ion Blue accents
+      colors[i3] = 0; // R
+      colors[i3 + 1] = 0.7; // G
+      colors[i3 + 2] = 0.94; // B
+    } else if (Math.random() > 0.95) {
+      // Infrared Violet highlights
+      colors[i3] = 0.62; // R
+      colors[i3 + 1] = 0; // G
+      colors[i3 + 2] = 1; // B
+    } else {
+      // White/blue base
+      colors[i3] = 0.7 + Math.random() * 0.3; // R
+      colors[i3 + 1] = 0.7 + Math.random() * 0.3; // G
+      colors[i3 + 2] = 0.8 + Math.random() * 0.2; // B
+    }
   }
   
   return { points, colors };
@@ -75,12 +89,17 @@ const Particles: React.FC<ParticleProps> = ({ count = 2000, mouse }) => {
 
 interface ParticleBackgroundProps {
   className?: string;
+  intensity?: number;
 }
 
-const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ className }) => {
+const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ 
+  className = "", 
+  intensity = 1 
+}) => {
   const [supported, setSupported] = useState<boolean | null>(null);
   const mousePos = useRef({ x: 0, y: 0 });
   const isMobile = useIsMobile();
+  const [isVisible, setIsVisible] = useState(true); // Always visible by default
 
   useEffect(() => {
     setSupported(isWebGLSupported());
@@ -119,7 +138,8 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ className }) =>
     // Fallback to CSS animation if WebGL is not supported
     return (
       <div 
-        className={`fixed inset-0 bg-ai8ty-black overflow-hidden ${className}`}
+        className={`fixed inset-0 bg-ai8ty-black overflow-hidden -z-10 ${className}`}
+        style={{ opacity: isVisible ? 0.85 : 0 }}
       >
         <div className="stars-container">
           {[...Array(100)].map((_, i) => (
@@ -142,8 +162,15 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ className }) =>
   if (supported === null) return null; // Loading state
 
   return (
-    <div className={`fixed inset-0 ${className}`}>
-      <Canvas camera={{ position: [0, 0, 5], fov: 75 }}>
+    <div 
+      className={`fixed inset-0 -z-10 ${className}`} 
+      style={{ opacity: isVisible ? 0.85 : 0 }}
+    >
+      <Canvas 
+        camera={{ position: [0, 0, 5], fov: 75 }} 
+        style={{ position: "fixed", inset: 0 }}
+        dpr={[1, 1.5]} // Optimize performance
+      >
         <ambientLight intensity={0.5} />
         <Particles count={isMobile ? 1000 : 2000} mouse={mousePos} />
       </Canvas>
