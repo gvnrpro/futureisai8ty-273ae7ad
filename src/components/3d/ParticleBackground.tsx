@@ -1,7 +1,6 @@
 
 import React, { useRef, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { isWebGLSupported } from "@/lib/animation-utils";
@@ -25,7 +24,12 @@ const generatePoints = (count: number) => {
   return { points, colors };
 };
 
-const Particles = ({ count = 2000, mouse }) => {
+interface ParticleProps {
+  count?: number;
+  mouse: React.MutableRefObject<{ x: number; y: number }>;
+}
+
+const Particles: React.FC<ParticleProps> = ({ count = 2000, mouse }) => {
   const pointsRef = useRef<THREE.Points>(null);
   const { points, colors } = React.useMemo(() => generatePoints(count), [count]);
 
@@ -47,14 +51,14 @@ const Particles = ({ count = 2000, mouse }) => {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={points.length / 3}
           array={points}
+          count={points.length / 3}
           itemSize={3}
         />
         <bufferAttribute
           attach="attributes-color"
-          count={colors.length / 3}
           array={colors}
+          count={colors.length / 3}
           itemSize={3}
         />
       </bufferGeometry>

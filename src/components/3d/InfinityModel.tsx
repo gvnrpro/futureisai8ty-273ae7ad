@@ -26,13 +26,16 @@ const InfinityPath: React.FC<InfinityPathProps> = ({
     }
   });
   
-  // Create an infinity shape using a TorusGeometry
-  const torusGeometry = new THREE.TorusGeometry(1, 0.1, 16, 100);
-  
   return (
     <mesh ref={meshRef}>
       <torusGeometry args={[1, 0.04, 16, 100]} />
-      <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.5} transparent opacity={0.8} />
+      <meshStandardMaterial 
+        color={color} 
+        emissive={color}
+        emissiveIntensity={0.5} 
+        transparent 
+        opacity={0.8} 
+      />
     </mesh>
   );
 };
