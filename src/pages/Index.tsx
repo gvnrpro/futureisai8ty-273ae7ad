@@ -16,7 +16,7 @@ const services = [
     title: "Identity Design",
     description: "We create bold, memorable brand identities that communicate your unique promise.",
     outcome: "A brand identity that creates instant recognition and emotional connection.",
-    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 001 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" /></svg>
+    icon: <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 001 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 00-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" /></svg>
   },
   {
     title: "Strategic Copy",
@@ -125,7 +125,7 @@ const Index: React.FC = () => {
   return (
     <div className="flex flex-col">
       {/* Logo in top-left corner */}
-      <div className="ai8ty-logo">
+      <div className="fixed top-4 left-4 z-50 w-16 h-16 md:w-20 md:h-20">
         <img 
           src="/lovable-uploads/0babdf62-476a-4abe-ae58-912ad729fd2f.png" 
           alt="AI8TY Logo" 
@@ -136,7 +136,7 @@ const Index: React.FC = () => {
       {/* Hero Section with Improved 3D Background */}
       <section 
         ref={heroRef}
-        className="cinematic-section relative min-h-screen bg-ai8ty-black overflow-hidden z-10"
+        className="cinematic-section relative min-h-screen bg-black overflow-hidden z-10"
       >
         {/* Persistent background with different z-index to ensure it stays behind content */}
         <div className="absolute inset-0 z-0">
@@ -151,7 +151,7 @@ const Index: React.FC = () => {
             style={{ y: headerSpring }}
             className="z-20"
           >
-            <h1 className="hero-headline text-white">
+            <h1 className="hero-headline">
               This isn't branding. This is what <span className="text-ai8ty-blue glow-text">brands wish they were</span>.
             </h1>
           </motion.div>
@@ -176,7 +176,7 @@ const Index: React.FC = () => {
             className="hero-cta-container z-20"
           >
             <Button 
-              className="bg-ai8ty-blue hover:bg-ai8ty-blue/80 text-white px-8 py-6 text-lg cinematic-button touch-ripple hover-scale-subtle"
+              className="bg-[#00B4F0] hover:bg-[#00B4F0]/80 text-white px-8 py-6 text-lg cinematic-button touch-ripple hover-scale-subtle"
               asChild
               onClick={handleCtaClick}
             >
@@ -220,7 +220,7 @@ const Index: React.FC = () => {
                   text={'Most "agencies" are factories.'}
                   className="mb-2"
                   highlight={["factories"]}
-                  highlightClassName="text-ai8ty-blue glow-text"
+                  highlightClassName="text-ai8ty-blue"
                 />
                 <KineticText 
                   text="Templates. Packages. Smile-and-send PDFs."

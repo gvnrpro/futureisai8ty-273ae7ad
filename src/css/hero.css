@@ -10,11 +10,15 @@
 }
 
 .hero-headline {
-  @apply text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white;
+  @apply text-4xl md:text-6xl lg:text-7xl font-bold mb-6;
+  color: white;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .hero-subheadline {
-  @apply text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-white/80;
+  @apply text-xl md:text-2xl max-w-2xl mx-auto mb-8;
+  color: rgba(255, 255, 255, 0.8);
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .hero-cta-container {
@@ -41,17 +45,20 @@
 
 /* Ensure all text is visible */
 .text-ai8ty-white {
-  @apply text-white;
+  color: white !important;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
 .text-ai8ty-blue {
-  color: #00B4F0;
+  color: #00B4F0 !important;
+  text-shadow: 0 0 10px rgba(0, 180, 240, 0.5);
 }
 
 .text-ai8ty-violet {
-  color: #9E00FF;
+  color: #9E00FF !important;
+  text-shadow: 0 0 10px rgba(158, 0, 255, 0.5);
 }
 
 .glow-text {
-  text-shadow: 0 0 10px rgba(0, 180, 240, 0.5);
+  text-shadow: 0 0 10px rgba(0, 180, 240, 0.7), 0 0 20px rgba(0, 180, 240, 0.5), 0 0 30px rgba(0, 180, 240, 0.3);
 }

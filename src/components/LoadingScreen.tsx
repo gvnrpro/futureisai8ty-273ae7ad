@@ -27,15 +27,25 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onLoadingCompl
       onAnimationComplete={() => !isLoading && onLoadingComplete()}
     >
       <div className="loading-logo">
-        <img 
+        <motion.img 
           src="/lovable-uploads/0babdf62-476a-4abe-ae58-912ad729fd2f.png" 
           alt="AI8TY Logo" 
-          className="w-full h-full object-contain"
+          className="w-full h-full object-contain z-10 relative"
+          initial={{ scale: 0.9 }}
+          animate={{ 
+            scale: [0.9, 1.1, 0.9],
+          }}
+          transition={{ 
+            duration: 2, 
+            repeat: Infinity,
+            ease: "easeInOut" 
+          }}
         />
         <motion.div 
-          className="absolute inset-0 bg-ai8ty-blue/20"
+          className="absolute inset-0 bg-[#00B4F0]/20"
           animate={{ 
             opacity: [0.2, 0.5, 0.2],
+            scale: [1, 1.2, 1]
           }}
           transition={{ 
             duration: 2, 

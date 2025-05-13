@@ -1,6 +1,6 @@
 
 .loading-screen {
-  @apply fixed inset-0 flex flex-col items-center justify-center bg-ai8ty-black z-50;
+  @apply fixed inset-0 flex flex-col items-center justify-center bg-black z-50;
 }
 
 .loading-logo {
@@ -9,25 +9,26 @@
 
 .loading-logo img {
   @apply w-full h-full object-contain;
+  filter: drop-shadow(0 0 10px rgba(0, 180, 240, 0.7));
 }
 
 .loading-logo::after {
   content: '';
-  @apply absolute inset-0 bg-ai8ty-blue/20 rounded-full blur-xl;
+  @apply absolute inset-0 bg-[#00B4F0]/20 rounded-full blur-xl;
   animation: pulse 2s infinite ease-in-out;
 }
 
 .loading-bar {
-  @apply h-2 bg-ai8ty-blue/30 rounded-full overflow-hidden w-48 mt-4;
+  @apply h-2 bg-[#00B4F0]/30 rounded-full overflow-hidden w-48 mt-4;
 }
 
 .loading-bar-progress {
-  @apply h-full bg-ai8ty-blue;
+  @apply h-full bg-[#00B4F0];
   animation: progress 3s ease-in-out forwards;
 }
 
 .loading-text {
-  @apply mt-4 text-ai8ty-white/70 text-sm;
+  @apply mt-4 text-white/70 text-sm;
   animation: pulse-text 2s infinite ease-in-out;
 }
 

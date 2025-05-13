@@ -1,50 +1,65 @@
 
-/* Button ripple effect */
-.touch-ripple {
-  position: relative;
-  overflow: hidden;
-  transform: translate3d(0, 0, 0);
+/* Button styles */
+.cinematic-button {
+  @apply relative overflow-hidden rounded transition-all duration-300;
+  background: #00B4F0;
+  color: white;
+  box-shadow: 0 0 15px rgba(0, 180, 240, 0.3);
 }
 
-.touch-ripple:after {
-  content: "";
-  display: block;
-  position: absolute;
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  top: var(--y, 50%);
-  left: var(--x, 50%);
-  margin-top: -50px;
-  margin-left: -50px;
+.cinematic-button:hover {
+  background: rgba(0, 180, 240, 0.8);
+  transform: scale(1.03);
+  box-shadow: 0 0 20px rgba(0, 180, 240, 0.5);
+}
+
+.cinematic-button:active {
+  transform: scale(0.98);
+}
+
+.cinematic-button::after {
+  @apply absolute inset-0 opacity-0 pointer-events-none;
+  content: '';
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 70%);
+  transform: scale(0);
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
+
+.cinematic-button:hover::after {
+  @apply opacity-30;
+  transform: scale(2);
+}
+
+.cinematic-button:active::after {
+  @apply opacity-50;
+  transform: scale(0);
+  transition: transform 0.05s ease-out, opacity 0.05s ease-out;
+}
+
+/* Mobile touch ripple effect */
+.touch-ripple {
+  @apply relative overflow-hidden;
+}
+
+.touch-ripple::before {
+  @apply absolute inset-0 pointer-events-none;
+  content: '';
+  background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 50%);
   opacity: 0;
-  background: rgba(255, 255, 255, 0.3);
-  transition: all 0.5s;
   transform: scale(0);
 }
 
-.touch-ripple.touched:after {
-  transform: scale(3);
-  opacity: 0;
-  transition: 0s;
+.touch-ripple.touched::before {
+  animation: touch-ripple-animation 0.8s ease-out;
 }
 
-.hover-scale-subtle {
-  transition: transform 0.2s ease;
-}
-
-.hover-scale-subtle:hover {
-  transform: scale(1.03);
-}
-
-.glow-text {
-  text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
-}
-
-.glow-box {
-  box-shadow: 0 0 10px rgba(0, 180, 240, 0.3), 0 0 20px rgba(0, 180, 240, 0.1);
-}
-
-.glow-box:hover {
-  box-shadow: 0 0 15px rgba(0, 180, 240, 0.5), 0 0 30px rgba(0, 180, 240, 0.2);
+@keyframes touch-ripple-animation {
+  0% {
+    opacity: 1;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(3);
+  }
 }
