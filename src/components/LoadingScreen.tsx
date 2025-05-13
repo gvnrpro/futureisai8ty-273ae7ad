@@ -20,13 +20,13 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onLoadingCompl
 
   return (
     <motion.div
-      className="fixed inset-0 flex flex-col items-center justify-center bg-ai8ty-black z-50"
+      className="loading-screen"
       initial={{ opacity: 1 }}
       animate={{ opacity: isLoading ? 1 : 0 }}
       transition={{ duration: 0.5 }}
       onAnimationComplete={() => !isLoading && onLoadingComplete()}
     >
-      <div className="relative w-40 h-40 mb-8">
+      <div className="loading-logo">
         <img 
           src="/lovable-uploads/0babdf62-476a-4abe-ae58-912ad729fd2f.png" 
           alt="AI8TY Logo" 
@@ -50,10 +50,10 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onLoadingCompl
       </div>
       
       <motion.div 
-        className="h-2 bg-ai8ty-blue/30 rounded-full overflow-hidden w-48 mt-4"
+        className="loading-bar"
       >
         <motion.div
-          className="h-full bg-ai8ty-blue"
+          className="loading-bar-progress"
           initial={{ width: "0%" }}
           animate={{ width: "100%" }}
           transition={{ duration: 3, ease: "easeInOut" }}
@@ -61,7 +61,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onLoadingCompl
       </motion.div>
       
       <motion.p 
-        className="mt-4 text-ai8ty-white/70 text-sm"
+        className="loading-text"
         animate={{ 
           opacity: [0.7, 1, 0.7],
         }}

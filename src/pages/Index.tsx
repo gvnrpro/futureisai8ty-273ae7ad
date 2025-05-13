@@ -125,7 +125,7 @@ const Index: React.FC = () => {
   return (
     <div className="flex flex-col">
       {/* Logo in top-left corner */}
-      <div className="fixed top-4 left-4 z-50 w-16 h-16 md:w-20 md:h-20">
+      <div className="ai8ty-logo">
         <img 
           src="/lovable-uploads/0babdf62-476a-4abe-ae58-912ad729fd2f.png" 
           alt="AI8TY Logo" 
@@ -151,13 +151,9 @@ const Index: React.FC = () => {
             style={{ y: headerSpring }}
             className="z-20"
           >
-            <KineticText 
-              text="This isn't branding. This is what brands wish they were."
-              className="mb-6"
-              textClassName="text-ai8ty-white text-3xl md:text-4xl lg:text-5xl font-bold"
-              highlight={["brands wish they were"]}
-              highlightClassName="text-ai8ty-blue glow-text"
-            />
+            <h1 className="hero-headline text-white">
+              This isn't branding. This is what <span className="text-ai8ty-blue glow-text">brands wish they were</span>.
+            </h1>
           </motion.div>
           
           <motion.div
@@ -166,7 +162,7 @@ const Index: React.FC = () => {
             transition={{ duration: 1, delay: 0.5 }}
             className="z-20"
           >
-            <p className="text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-ai8ty-white/80">
+            <p className="hero-subheadline">
               You're not here to "look nice."<br />
               You're here to be impossible to ignore.<br />
               To burn into memory. To make people stop scrolling—and feel like they missed something important if they don't click.
@@ -177,7 +173,7 @@ const Index: React.FC = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 mt-6 z-20"
+            className="hero-cta-container z-20"
           >
             <Button 
               className="bg-ai8ty-blue hover:bg-ai8ty-blue/80 text-white px-8 py-6 text-lg cinematic-button touch-ripple hover-scale-subtle"

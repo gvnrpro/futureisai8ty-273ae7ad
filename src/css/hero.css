@@ -10,11 +10,11 @@
 }
 
 .hero-headline {
-  @apply text-4xl md:text-6xl lg:text-7xl font-bold mb-6;
+  @apply text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-white;
 }
 
 .hero-subheadline {
-  @apply text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-ai8ty-white/80;
+  @apply text-xl md:text-2xl max-w-2xl mx-auto mb-8 text-white/80;
 }
 
 .hero-cta-container {
@@ -37,4 +37,21 @@
   50% {
     transform: translateY(10px) translateX(-50%);
   }
+}
+
+/* Ensure all text is visible */
+.text-ai8ty-white {
+  @apply text-white;
+}
+
+.text-ai8ty-blue {
+  color: #00B4F0;
+}
+
+.text-ai8ty-violet {
+  color: #9E00FF;
+}
+
+.glow-text {
+  text-shadow: 0 0 10px rgba(0, 180, 240, 0.5);
 }
