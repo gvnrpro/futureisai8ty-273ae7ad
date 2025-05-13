@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
@@ -195,7 +194,7 @@ const Index: React.FC = () => {
                 transition={{ duration: 0.6 }}
               >
                 <KineticText 
-                  text="Most "agencies" are factories."
+                  text={'Most "agencies" are factories.'}
                   className="mb-2"
                   highlight={["factories"]}
                   highlightClassName="text-ai8ty-blue glow-text"
@@ -329,7 +328,7 @@ const Index: React.FC = () => {
                 description="We leverage cutting-edge AI to amplify your brand's reach and effectiveness."
                 outcome="Systems that scale your impact while maintaining your unique voice."
                 index={3}
-                icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" /></svg>}
+                icon={<svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-ai8ty-blue" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>}
               />
             </div>
           </motion.div>
