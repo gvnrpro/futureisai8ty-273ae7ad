@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Index from "./pages/Index";
 import Arsenal from "./pages/Arsenal";
 import CaseStudies from "./pages/CaseStudies";
@@ -15,6 +15,7 @@ import Footer from "./components/Footer";
 import CinematicCursor from "./components/CinematicCursor";
 import { motion, AnimatePresence } from "framer-motion";
 import LoadingScreen from "./components/LoadingScreen";
+import { updateMetaTags } from "./lib/seo-utils";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,45 @@ const LoadingSpinner = () => (
     />
   </div>
 );
+
+// SEO Manager
+const SEOManager = () => {
+  const location = useLocation();
+  
+  useEffect(() => {
+    // Update meta tags based on current route
+    switch(location.pathname) {
+      case '/':
+        updateMetaTags({
+          title: 'AI8TY | Cinematic Creative-Tech Agency',
+          description: 'Creating unforgettable, emotionally charged digital experiences for ambitious brands.'
+        });
+        break;
+      case '/arsenal':
+        updateMetaTags({
+          title: 'The Arsenal | AI8TY Creative-Tech Agency',
+          description: 'Discover our suite of creative tools and technologies that make brands unforgettable.'
+        });
+        break;
+      case '/case-studies':
+        updateMetaTags({
+          title: 'Our Work | AI8TY Creative-Tech Agency',
+          description: 'See how we've transformed ambitious brands through cinematic digital experiences.'
+        });
+        break;
+      case '/contact':
+        updateMetaTags({
+          title: 'Contact | AI8TY Creative-Tech Agency',
+          description: 'Ready to be unforgettable? Get in touch with our creative team.'
+        });
+        break;
+      default:
+        updateMetaTags(); // Reset to defaults for 404 or unknown routes
+    }
+  }, [location]);
+  
+  return null;
+};
 
 // Page transition wrapper
 const PageTransition = ({ children }: { children: React.ReactNode }) => (
@@ -68,6 +108,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <SEOManager />
           <CinematicCursor />
           <Navbar />
           <Suspense fallback={<LoadingSpinner />}>
