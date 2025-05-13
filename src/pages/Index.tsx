@@ -9,6 +9,7 @@ import InfinityModel from '@/components/3d/InfinityModel';
 import AnimatedServiceCard from '@/components/AnimatedServiceCard';
 import AnimatedCaseStudyCard from '@/components/AnimatedCaseStudyCard';
 import { useIsMobile } from '@/hooks/use-mobile';
+import LoadingScreen from '@/components/LoadingScreen';
 
 const services = [
   {
@@ -56,6 +57,8 @@ const caseStudies = [
 ];
 
 const Index: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const isMobile = useIsMobile();
   const { scrollY } = useScroll();
@@ -81,31 +84,55 @@ const Index: React.FC = () => {
       heroHeight.current = heroRef.current.offsetHeight;
     }
 
-    // Ensure the animation completes
+    // Loading simulation
     const timer = setTimeout(() => {
-      setAnimationComplete(true);
+      setIsLoading(false);
     }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
 
-  const handleCtaClick = (e: React.MouseEvent) => {
-    // Add ripple effect to button
-    const rect = (e.currentTarget as HTMLButtonElement).getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    (e.currentTarget as HTMLElement).style.setProperty('--x', `${x}px`);
-    (e.currentTarget as HTMLElement).style.setProperty('--y', `${y}px`);
-    (e.currentTarget as HTMLElement).classList.add('touched');
-    
-    setTimeout(() => {
-      (e.currentTarget as HTMLElement).classList.remove('touched');
-    }, 1000);
+  const handleLoadingComplete = () => {
+    setShowContent(true);
   };
+
+  const handleCtaClick = (e: React.MouseEvent) => {
+    try {
+      // Add ripple effect to button
+      const button = e.currentTarget as HTMLElement;
+      if (!button) return;
+      
+      const rect = button.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      button.style.setProperty('--x', `${x}px`);
+      button.style.setProperty('--y', `${y}px`);
+      button.classList.add('touched');
+      
+      setTimeout(() => {
+        button.classList.remove('touched');
+      }, 1000);
+    } catch (error) {
+      console.error("Error in handleCtaClick:", error);
+    }
+  };
+
+  if (!showContent) {
+    return <LoadingScreen isLoading={isLoading} onLoadingComplete={handleLoadingComplete} />;
+  }
 
   return (
     <div className="flex flex-col">
+      {/* Logo in top-left corner */}
+      <div className="fixed top-4 left-4 z-50 w-16 h-16 md:w-20 md:h-20">
+        <img 
+          src="/lovable-uploads/0babdf62-476a-4abe-ae58-912ad729fd2f.png" 
+          alt="AI8TY Logo" 
+          className="w-full h-full object-contain"
+        />
+      </div>
+      
       {/* Hero Section with Improved 3D Background */}
       <section 
         ref={heroRef}
@@ -116,7 +143,7 @@ const Index: React.FC = () => {
           <ParticleBackground className="opacity-70" />
         </div>
         
-        <div className="container z-20 relative mx-auto flex flex-col items-center justify-center text-center pt-16">
+        <div className="container z-20 relative mx-auto flex flex-col items-center justify-center text-center pt-24 md:pt-16">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
@@ -127,7 +154,7 @@ const Index: React.FC = () => {
             <KineticText 
               text="This isn't branding. This is what brands wish they were."
               className="mb-6"
-              textClassName="text-ai8ty-white"
+              textClassName="text-ai8ty-white text-3xl md:text-4xl lg:text-5xl font-bold"
               highlight={["brands wish they were"]}
               highlightClassName="text-ai8ty-blue glow-text"
             />

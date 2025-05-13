@@ -1,11 +1,11 @@
 
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { isWebGLSupported } from "@/lib/animation-utils";
 
-// Generate random points for the particles
+// Generate random points for the particles - moved outside component for stability
 const generatePoints = (count: number) => {
   const points = new Float32Array(count * 3);
   const colors = new Float32Array(count * 3);
@@ -45,17 +45,20 @@ interface ParticleProps {
 
 const Particles: React.FC<ParticleProps> = ({ count = 2000, mouse }) => {
   const pointsRef = useRef<THREE.Points>(null);
-  const { points, colors } = React.useMemo(() => generatePoints(count), [count]);
+  
+  // Use useMemo to prevent regenerating points on every render
+  const { points, colors } = useMemo(() => generatePoints(count), [count]);
 
   useFrame(({ clock }) => {
     if (pointsRef.current) {
-      pointsRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.1) * 0.2;
-      pointsRef.current.rotation.y = Math.sin(clock.getElapsedTime() * 0.2) * 0.2;
+      // Use slower, more stable rotation
+      pointsRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.05) * 0.1;
+      pointsRef.current.rotation.y = Math.sin(clock.getElapsedTime() * 0.1) * 0.1;
       
-      // Add mouse movement influence
+      // Add subtle mouse movement influence
       if (mouse.current) {
-        pointsRef.current.rotation.x += mouse.current.y * 0.01;
-        pointsRef.current.rotation.y += mouse.current.x * 0.01;
+        pointsRef.current.rotation.x += mouse.current.y * 0.005;
+        pointsRef.current.rotation.y += mouse.current.x * 0.005;
       }
     }
   });
@@ -82,6 +85,7 @@ const Particles: React.FC<ParticleProps> = ({ count = 2000, mouse }) => {
         transparent={true}
         depthWrite={false}
         vertexColors={true}
+        opacity={0.7}
       />
     </points>
   );
@@ -97,15 +101,25 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
   intensity = 1 
 }) => {
   const [supported, setSupported] = useState<boolean | null>(null);
+  const [fallbackVisible, setFallbackVisible] = useState(false);
   const mousePos = useRef({ x: 0, y: 0 });
   const isMobile = useIsMobile();
-  const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    setSupported(isWebGLSupported());
+    // Check for WebGL support
+    const webGLSupported = isWebGLSupported();
+    setSupported(webGLSupported);
+    
+    // If WebGL is not supported, show fallback after a delay
+    if (!webGLSupported) {
+      const timer = setTimeout(() => {
+        setFallbackVisible(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
     
     const handleMouseMove = (e: MouseEvent) => {
-      // Normalize mouse position to [-1, 1]
+      // Normalize mouse position to [-1, 1] but with reduced sensitivity
       mousePos.current = {
         x: (e.clientX / window.innerWidth) * 2 - 1,
         y: -(e.clientY / window.innerHeight) * 2 + 1,
@@ -114,10 +128,10 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
 
     const handleDeviceOrientation = (e: DeviceOrientationEvent) => {
       if (e.beta && e.gamma) {
-        // Convert device orientation to mouse position
+        // Convert device orientation to mouse position with reduced sensitivity
         mousePos.current = {
-          x: (e.gamma / 45) * 0.5, // gamma ranges from -90 to 90
-          y: (e.beta / 45) * 0.5,  // beta ranges from -180 to 180
+          x: (e.gamma / 90) * 0.3, // reduced from 0.5
+          y: (e.beta / 90) * 0.3,  // reduced from 0.5
         };
       }
     };
@@ -134,12 +148,12 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
     };
   }, [isMobile]);
 
+  // CSS Fallback for non-WebGL browsers or when WebGL fails
   if (supported === false) {
-    // Fallback to CSS animation if WebGL is not supported
     return (
       <div 
         className={`fixed inset-0 bg-ai8ty-black overflow-hidden z-0 ${className}`}
-        style={{ opacity: isVisible ? 0.85 : 0 }}
+        style={{ opacity: fallbackVisible ? 0.85 : 0 }}
       >
         <div className="stars-container">
           {[...Array(100)].map((_, i) => (
@@ -164,15 +178,17 @@ const ParticleBackground: React.FC<ParticleBackgroundProps> = ({
   return (
     <div 
       className={`fixed inset-0 z-0 ${className}`} 
-      style={{ opacity: isVisible ? 0.85 : 0 }}
     >
       <Canvas 
-        camera={{ position: [0, 0, 5], fov: 75 }} 
+        camera={{ position: [0, 0, 5], fov: 60 }} // Reduced FOV for better performance
         style={{ position: "fixed", inset: 0 }}
-        dpr={[1, 1.5]} // Optimize performance
+        dpr={[0.8, 1.5]} // Lower DPR for better performance
       >
-        <ambientLight intensity={0.5} />
-        <Particles count={isMobile ? 1000 : 2000} mouse={mousePos} />
+        <ambientLight intensity={0.3} /> {/* Reduced light intensity */}
+        <Particles 
+          count={isMobile ? 800 : 1500} // Reduced particle count
+          mouse={mousePos} 
+        />
       </Canvas>
     </div>
   );

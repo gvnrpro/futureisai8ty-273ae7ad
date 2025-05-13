@@ -1,0 +1,75 @@
+
+.loading-screen {
+  @apply fixed inset-0 flex flex-col items-center justify-center bg-ai8ty-black z-50;
+}
+
+.loading-logo {
+  @apply relative w-40 h-40 mb-8;
+}
+
+.loading-logo img {
+  @apply w-full h-full object-contain;
+}
+
+.loading-logo::after {
+  content: '';
+  @apply absolute inset-0 bg-ai8ty-blue/20 rounded-full blur-xl;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.loading-bar {
+  @apply h-2 bg-ai8ty-blue/30 rounded-full overflow-hidden w-48 mt-4;
+}
+
+.loading-bar-progress {
+  @apply h-full bg-ai8ty-blue;
+  animation: progress 3s ease-in-out forwards;
+}
+
+.loading-text {
+  @apply mt-4 text-ai8ty-white/70 text-sm;
+  animation: pulse-text 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes pulse-text {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.ai8ty-logo {
+  @apply fixed top-4 left-4 z-50 w-16 h-16 md:w-20 md:h-20;
+  animation: logo-appear 1s ease-out forwards;
+}
+
+@keyframes logo-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
