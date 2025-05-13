@@ -52,7 +52,7 @@ const SEOManager = () => {
       case '/case-studies':
         updateMetaTags({
           title: 'Our Work | AI8TY Creative-Tech Agency',
-          description: 'See how we've transformed ambitious brands through cinematic digital experiences.'
+          description: "See how we've transformed ambitious brands through cinematic digital experiences."
         });
         break;
       case '/contact':
