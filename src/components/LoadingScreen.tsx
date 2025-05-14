@@ -1,5 +1,4 @@
-
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface LoadingScreenProps {
@@ -8,80 +7,76 @@ interface LoadingScreenProps {
 }
 
 const LoadingScreen: React.FC<LoadingScreenProps> = ({ isLoading, onLoadingComplete }) => {
-  React.useEffect(() => {
-    if (!isLoading) {
-      const timer = setTimeout(() => {
-        onLoadingComplete();
-      }, 300);
-      
-      return () => clearTimeout(timer);
+  const [progress, setProgress] = useState(0);
+  
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    
+    if (isLoading) {
+      // Create smoother progress animation
+      timer = setInterval(() => {
+        setProgress(prev => {
+          const newProgress = prev + Math.random() * 3;
+          return newProgress > 100 ? 100 : newProgress;
+        });
+      }, 50);
+    } else {
+      setProgress(100);
     }
-  }, [isLoading, onLoadingComplete]);
-
+    
+    if (progress >= 100) {
+      // Delay transition slightly to ensure animations complete
+      setTimeout(() => {
+        onLoadingComplete();
+      }, 500);
+    }
+    
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [isLoading, progress, onLoadingComplete]);
+  
   return (
-    <motion.div
-      className="loading-screen"
+    <motion.div 
+      className="fixed inset-0 z-50 bg-ai8ty-black flex flex-col items-center justify-center"
       initial={{ opacity: 1 }}
-      animate={{ opacity: isLoading ? 1 : 0 }}
-      transition={{ duration: 0.5 }}
-      onAnimationComplete={() => !isLoading && onLoadingComplete()}
+      animate={{ opacity: isLoading || progress < 100 ? 1 : 0 }}
+      transition={{ duration: 0.6 }}
+      onAnimationComplete={() => {
+        if (!isLoading && progress >= 100) {
+          setTimeout(onLoadingComplete, 200);
+        }
+      }}
     >
-      <div className="loading-logo">
-        <motion.img 
+      <motion.div
+        initial={{ scale: 0.8, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className="w-40 h-40 mb-8"
+      >
+        <img 
           src="/lovable-uploads/0babdf62-476a-4abe-ae58-912ad729fd2f.png" 
           alt="AI8TY Logo" 
-          className="w-full h-full object-contain z-10 relative"
-          initial={{ scale: 0.9 }}
-          animate={{ 
-            scale: [0.9, 1.1, 0.9],
-          }}
-          transition={{ 
-            duration: 2, 
-            repeat: Infinity,
-            ease: "easeInOut" 
-          }}
-        />
-        <motion.div 
-          className="absolute inset-0 bg-[#00B4F0]/20"
-          animate={{ 
-            opacity: [0.2, 0.5, 0.2],
-            scale: [1, 1.2, 1]
-          }}
-          transition={{ 
-            duration: 2, 
-            repeat: Infinity,
-            ease: "easeInOut" 
-          }}
-          style={{ 
-            borderRadius: "50%",
-            filter: "blur(20px)",
-          }}
-        />
-      </div>
-      
-      <motion.div 
-        className="loading-bar"
-      >
-        <motion.div
-          className="loading-bar-progress"
-          initial={{ width: "0%" }}
-          animate={{ width: "100%" }}
-          transition={{ duration: 3, ease: "easeInOut" }}
+          className="w-full h-full object-contain"
         />
       </motion.div>
       
+      <div className="w-64 h-2 bg-ai8ty-black/30 rounded-full overflow-hidden">
+        <motion.div 
+          className="h-full bg-ai8ty-blue"
+          initial={{ width: "0%" }}
+          animate={{ width: `${progress}%` }}
+          transition={{ ease: "easeInOut" }}
+        />
+      </div>
+      
       <motion.p 
-        className="loading-text"
-        animate={{ 
-          opacity: [0.7, 1, 0.7],
-        }}
-        transition={{ 
-          duration: 2, 
-          repeat: Infinity,
-          ease: "easeInOut" 
-        }}
+        className="text-ai8ty-white/70 mt-4"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5 }}
       >
-        Loading experience
+        {isLoading ? "Loading experience..." : "Ready"}
       </motion.p>
     </motion.div>
   );

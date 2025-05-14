@@ -7,7 +7,6 @@ const CinematicCursor: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [clicked, setClicked] = useState(false);
   const [hoveredElement, setHoveredElement] = useState<string | null>(null);
-  const cursorRef = useRef<HTMLDivElement>(null);
   const dotRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
   
@@ -25,7 +24,11 @@ const CinematicCursor: React.FC = () => {
   const trailSpringY = useSpring(cursorY, { damping: 40, stiffness: 300 });
   
   useEffect(() => {
+    // Don't do anything on mobile
     if (isMobile) return;
+    
+    // Handle cursor visibility initially
+    setVisible(false);
     
     const handleMouseMove = (e: MouseEvent) => {
       cursorX.set(e.clientX);
@@ -33,28 +36,28 @@ const CinematicCursor: React.FC = () => {
       
       if (!visible) setVisible(true);
       
-      // Check what element is being hovered
+      // Check what element is being hovered with improved detection
       const target = e.target as HTMLElement;
+      
+      // Better detection for interactive elements
       const isLink = 
         target.tagName.toLowerCase() === 'a' || 
         target.tagName.toLowerCase() === 'button' || 
         target.closest('a') || 
         target.closest('button') ||
-        target.getAttribute('role') === 'button';
+        target.getAttribute('role') === 'button' ||
+        target.classList.contains('cursor-pointer');
         
       const isText = 
         target.tagName.toLowerCase() === 'p' || 
-        target.tagName.toLowerCase() === 'h1' ||
-        target.tagName.toLowerCase() === 'h2' ||
-        target.tagName.toLowerCase() === 'h3' ||
-        target.tagName.toLowerCase() === 'h4' ||
-        target.tagName.toLowerCase() === 'h5' ||
-        target.tagName.toLowerCase() === 'h6' ||
-        target.tagName.toLowerCase() === 'span';
+        target.tagName.toLowerCase().match(/h[1-6]/) ||
+        target.tagName.toLowerCase() === 'span' ||
+        target.classList.contains('text');
         
       const isInput =
         target.tagName.toLowerCase() === 'input' ||
-        target.tagName.toLowerCase() === 'textarea';
+        target.tagName.toLowerCase() === 'textarea' ||
+        target.getAttribute('contenteditable') === 'true';
         
       if (isLink) {
         setHoveredElement('link');
@@ -72,12 +75,14 @@ const CinematicCursor: React.FC = () => {
     const handleMouseLeave = () => setVisible(false);
     const handleMouseEnter = () => setVisible(true);
     
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
-    window.addEventListener('mouseleave', handleMouseLeave);
-    window.addEventListener('mouseenter', handleMouseEnter);
+    // Ensure cursor works even when scrolling
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('mousedown', handleMouseDown, { passive: true });
+    window.addEventListener('mouseup', handleMouseUp, { passive: true });
+    window.addEventListener('mouseleave', handleMouseLeave, { passive: true });
+    window.addEventListener('mouseenter', handleMouseEnter, { passive: true });
     
+    // Clean up event listeners
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mousedown', handleMouseDown);
@@ -87,6 +92,7 @@ const CinematicCursor: React.FC = () => {
     };
   }, [isMobile, visible, cursorX, cursorY]);
   
+  // Return null if on mobile
   if (isMobile) return null;
   
   return (
@@ -94,7 +100,7 @@ const CinematicCursor: React.FC = () => {
       {/* Small dot that follows cursor precisely */}
       <motion.div 
         ref={dotRef}
-        className="reactive-cursor-dot bg-ai8ty-pink fixed z-50 mix-blend-difference pointer-events-none"
+        className="reactive-cursor-dot bg-ai8ty-blue fixed z-50 mix-blend-difference pointer-events-none"
         style={{
           x: dotSpringX,
           y: dotSpringY,
@@ -104,20 +110,18 @@ const CinematicCursor: React.FC = () => {
       
       {/* Main cursor circle */}
       <motion.div
-        ref={cursorRef}
-        className="reactive-cursor bg-ai8ty-pink fixed z-50 mix-blend-difference pointer-events-none"
+        className="reactive-cursor fixed z-50 mix-blend-difference pointer-events-none"
         style={{
           x: trailSpringX,
           y: trailSpringY,
           opacity: visible ? 0.75 : 0,
-          scale: clicked ? 0.7 : hoveredElement === 'link' ? 1.5 : hoveredElement === 'text' ? 1.2 : 1,
         }}
         animate={{
           opacity: visible ? 0.75 : 0,
           scale: clicked ? 0.7 : hoveredElement === 'link' ? 1.5 : hoveredElement === 'text' ? 1.2 : hoveredElement === 'input' ? 0.5 : 1,
-          borderRadius: hoveredElement === 'link' ? '100%' : '100%',
+          borderRadius: '100%',
           borderWidth: hoveredElement === 'link' ? '2px' : '0px',
-          backgroundColor: hoveredElement === 'link' ? 'rgba(255, 0, 79, 0.5)' : '#FF004F',
+          backgroundColor: hoveredElement === 'link' ? 'rgba(0, 180, 240, 0.5)' : '#00B4F0',
         }}
         transition={{
           type: 'spring',

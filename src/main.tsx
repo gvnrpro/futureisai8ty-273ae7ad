@@ -12,18 +12,41 @@ import './css/case-studies.css'
 
 // Preload key assets to improve initial load experience
 const preloadAssets = () => {
-  // Preload logo
-  const logoPreload = document.createElement('link');
-  logoPreload.rel = 'preload';
-  logoPreload.as = 'image';
-  logoPreload.href = '/lovable-uploads/0babdf62-476a-4abe-ae58-912ad729fd2f.png';
-  document.head.appendChild(logoPreload);
+  const assets = [
+    // Logo - critical asset
+    '/lovable-uploads/0babdf62-476a-4abe-ae58-912ad729fd2f.png',
+    // Add other critical assets here
+  ];
   
-  // Add more preloads for critical assets if needed
+  // Preload images
+  assets.forEach(asset => {
+    if (asset.match(/\.(jpe?g|png|gif|svg|webp)$/i)) {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = asset;
+      document.head.appendChild(link);
+    }
+  });
+  
+  // Set viewport for mobile optimization
+  const viewport = document.querySelector('meta[name="viewport"]');
+  if (!viewport) {
+    const meta = document.createElement('meta');
+    meta.name = 'viewport';
+    meta.content = 'width=device-width, initial-scale=1.0, viewport-fit=cover';
+    document.head.appendChild(meta);
+  }
 };
 
 // Execute preload
 preloadAssets();
 
-// Mount app
-createRoot(document.getElementById("root")!).render(<App />);
+// Set up and mount app with error boundary
+const rootElement = document.getElementById("root");
+if (!rootElement) throw new Error("Failed to find the root element");
+
+const root = createRoot(rootElement);
+
+// Mount app with error handling
+root.render(<App />);

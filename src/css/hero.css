@@ -10,19 +10,21 @@
 }
 
 .hero-headline {
-  @apply text-4xl md:text-6xl lg:text-7xl font-bold mb-6;
+  @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6;
   color: white;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  line-height: 1.2;
 }
 
 .hero-subheadline {
-  @apply text-xl md:text-2xl max-w-2xl mx-auto mb-8;
+  @apply text-lg sm:text-xl md:text-2xl max-w-xl sm:max-w-2xl mx-auto mb-6 sm:mb-8;
   color: rgba(255, 255, 255, 0.8);
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  line-height: 1.5;
 }
 
 .hero-cta-container {
-  @apply flex flex-col sm:flex-row gap-4 mt-6;
+  @apply flex flex-col sm:flex-row gap-4 mt-4 sm:mt-6;
 }
 
 .hero-background {
@@ -30,7 +32,7 @@
 }
 
 .hero-scroll-indicator {
-  @apply absolute bottom-16 left-1/2 -translate-x-1/2 z-20;
+  @apply absolute bottom-8 sm:bottom-16 left-1/2 -translate-x-1/2 z-20;
   animation: bounce 2s infinite ease-in-out;
 }
 
@@ -61,4 +63,15 @@
 
 .glow-text {
   text-shadow: 0 0 10px rgba(0, 180, 240, 0.7), 0 0 20px rgba(0, 180, 240, 0.5), 0 0 30px rgba(0, 180, 240, 0.3);
+}
+
+/* Mobile optimization */
+@media (max-width: 640px) {
+  .hero-headline {
+    padding: 0 12px;
+  }
+  
+  .hero-subheadline {
+    padding: 0 20px;
+  }
 }

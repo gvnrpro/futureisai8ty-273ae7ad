@@ -51,14 +51,14 @@ const Particles: React.FC<ParticleProps> = ({ count = 2000, mouse }) => {
 
   useFrame(({ clock }) => {
     if (pointsRef.current) {
-      // Use slower, more stable rotation
-      pointsRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.05) * 0.1;
-      pointsRef.current.rotation.y = Math.sin(clock.getElapsedTime() * 0.1) * 0.1;
+      // Use slower, more stable rotation for better performance and visual appeal
+      pointsRef.current.rotation.x = Math.sin(clock.getElapsedTime() * 0.03) * 0.1;
+      pointsRef.current.rotation.y = Math.sin(clock.getElapsedTime() * 0.05) * 0.1;
       
-      // Add subtle mouse movement influence
+      // Add subtle mouse movement influence with dampening
       if (mouse.current) {
-        pointsRef.current.rotation.x += mouse.current.y * 0.005;
-        pointsRef.current.rotation.y += mouse.current.x * 0.005;
+        pointsRef.current.rotation.x += (mouse.current.y * 0.003 - pointsRef.current.rotation.x * 0.1);
+        pointsRef.current.rotation.y += (mouse.current.x * 0.003 - pointsRef.current.rotation.y * 0.1);
       }
     }
   });
@@ -86,6 +86,8 @@ const Particles: React.FC<ParticleProps> = ({ count = 2000, mouse }) => {
         depthWrite={false}
         vertexColors={true}
         opacity={0.7}
+        // Add blending for better visual effect
+        blending={THREE.AdditiveBlending}
       />
     </points>
   );

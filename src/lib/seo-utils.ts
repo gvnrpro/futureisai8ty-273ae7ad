@@ -1,74 +1,89 @@
 
-// SEO Utilities for AI8TY
-interface MetaTagProps {
+// SEO Utility functions for managing meta tags
+
+interface MetaTags {
   title?: string;
   description?: string;
+  image?: string;
+  url?: string;
   keywords?: string;
-  ogImage?: string;
-  ogUrl?: string;
-  ogType?: 'website' | 'article';
-  twitterCard?: 'summary' | 'summary_large_image';
+  author?: string;
+  ogType?: string;
 }
 
-export const DEFAULT_META = {
+const DEFAULT_TAGS: MetaTags = {
   title: 'AI8TY | Cinematic Creative-Tech Agency',
-  description: 'Creating unforgettable, emotionally charged digital experiences for ambitious brands and challenger companies.',
-  keywords: 'creative agency, brand identity, digital experiences, web design, cinematic branding, AI8TY, strategic copy',
-  ogImage: 'https://ai8ty.com/social-preview.png',
-  ogUrl: 'https://ai8ty.com',
-  ogType: 'website' as const,
-  twitterCard: 'summary_large_image' as const
+  description: 'Creating unforgettable, emotionally charged digital experiences for ambitious brands.',
+  image: '/social-preview.png',
+  url: 'https://ai8ty.com',
+  keywords: 'creative agency, tech agency, digital experiences, brand design, web design, AI, cinematic',
+  author: 'AI8TY Creative',
+  ogType: 'website'
 };
 
-export const updateMetaTags = (props: MetaTagProps = {}): void => {
-  const meta = { ...DEFAULT_META, ...props };
+export function updateMetaTags(tags: Partial<MetaTags> = {}): void {
+  const finalTags = { ...DEFAULT_TAGS, ...tags };
   
   // Update title
-  document.title = meta.title || DEFAULT_META.title;
+  document.title = finalTags.title || DEFAULT_TAGS.title;
   
-  // Update meta tags
-  const metaTags = {
-    'description': meta.description,
-    'keywords': meta.keywords,
-    'og:title': meta.title,
-    'og:description': meta.description,
-    'og:type': meta.ogType,
-    'og:url': meta.ogUrl,
-    'og:image': meta.ogImage,
-    'twitter:card': meta.twitterCard,
-    'twitter:title': meta.title,
-    'twitter:description': meta.description,
-    'twitter:image': meta.ogImage
+  // Get or create meta tags
+  updateOrCreateMetaTag('description', finalTags.description);
+  updateOrCreateMetaTag('keywords', finalTags.keywords);
+  updateOrCreateMetaTag('author', finalTags.author);
+  
+  // Open Graph tags
+  updateOrCreateMetaTag('og:title', finalTags.title);
+  updateOrCreateMetaTag('og:description', finalTags.description);
+  updateOrCreateMetaTag('og:image', finalTags.image);
+  updateOrCreateMetaTag('og:url', finalTags.url);
+  updateOrCreateMetaTag('og:type', finalTags.ogType);
+  
+  // Twitter Card tags
+  updateOrCreateMetaTag('twitter:card', 'summary_large_image');
+  updateOrCreateMetaTag('twitter:title', finalTags.title);
+  updateOrCreateMetaTag('twitter:description', finalTags.description);
+  updateOrCreateMetaTag('twitter:image', finalTags.image);
+}
+
+function updateOrCreateMetaTag(name: string, content?: string): void {
+  if (!content) return;
+  
+  // Try both name and property attributes as they're used differently
+  let meta = document.querySelector(`meta[name="${name}"]`) || 
+             document.querySelector(`meta[property="${name}"]`);
+             
+  if (!meta) {
+    meta = document.createElement('meta');
+    // Use appropriate attribute based on tag type
+    if (name.startsWith('og:') || name.startsWith('twitter:')) {
+      meta.setAttribute('property', name);
+    } else {
+      meta.setAttribute('name', name);
+    }
+    document.head.appendChild(meta);
+  }
+  
+  meta.setAttribute('content', content);
+}
+
+export function setupStructuredData(): void {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "AI8TY",
+    "url": "https://ai8ty.com",
+    "logo": "https://ai8ty.com/lovable-uploads/0babdf62-476a-4abe-ae58-912ad729fd2f.png",
+    "description": "Cinematic Creative-Tech Agency creating unforgettable digital experiences.",
+    "sameAs": [
+      "https://twitter.com/ai8ty",
+      "https://instagram.com/ai8ty",
+      "https://linkedin.com/company/ai8ty"
+    ]
   };
   
-  // Update or create meta tags
-  Object.entries(metaTags).forEach(([name, content]) => {
-    if (!content) return;
-    
-    // Check if it's an Open Graph or Twitter tag
-    const isOg = name.startsWith('og:');
-    const isTwitter = name.startsWith('twitter:');
-    
-    // Get existing tag or create new one
-    let metaTag: HTMLMetaElement | null;
-    
-    if (isOg || isTwitter) {
-      metaTag = document.querySelector(`meta[property="${name}"]`);
-      if (!metaTag) {
-        metaTag = document.createElement('meta');
-        metaTag.setAttribute('property', name);
-        document.head.appendChild(metaTag);
-      }
-    } else {
-      metaTag = document.querySelector(`meta[name="${name}"]`);
-      if (!metaTag) {
-        metaTag = document.createElement('meta');
-        metaTag.setAttribute('name', name);
-        document.head.appendChild(metaTag);
-      }
-    }
-    
-    // Set content
-    metaTag.setAttribute('content', content);
-  });
-};
+  const script = document.createElement('script');
+  script.type = 'application/ld+json';
+  script.text = JSON.stringify(structuredData);
+  document.head.appendChild(script);
+}
