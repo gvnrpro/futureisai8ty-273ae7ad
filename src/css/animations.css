@@ -1,0 +1,110 @@
+
+/* Core Animation Utilities - Fixed and Optimized */
+
+/* Valid cubic-bezier animations */
+@keyframes smooth-fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes smooth-scale-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes smooth-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Optimized text reveal */
+@keyframes optimized-text-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Performance-optimized holographic effect */
+.holographic-optimized {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 180, 240, 0.05) 0%,
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 180, 240, 0.05) 100%
+  );
+}
+
+.holographic-optimized::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(0, 180, 240, 0.1) 50%,
+    transparent 100%
+  );
+  transition: opacity 0.3s ease;
+  will-change: opacity;
+}
+
+.holographic-optimized:hover::before {
+  opacity: 1;
+}
+
+/* Smooth button transitions */
+.smooth-button-transition {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform, box-shadow;
+}
+
+.smooth-button-transition:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 180, 240, 0.3);
+}
+
+/* Mobile-optimized animations */
+@media (max-width: 768px) {
+  .mobile-reduced-motion {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+  }
+}
+
+/* Prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,15 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Eye } from 'lucide-react';
-import KineticText, { KineticLetters } from '@/components/KineticText';
-import ParticleBackground from '@/components/3d/ParticleBackground';
-import InfinityModel from '@/components/3d/InfinityModel';
+import { ArrowRight } from 'lucide-react';
+import KineticText from '@/components/KineticText';
 import AnimatedServiceCard from '@/components/AnimatedServiceCard';
 import AnimatedCaseStudyCard from '@/components/AnimatedCaseStudyCard';
 import { useIsMobile } from '@/hooks/use-mobile';
 import LoadingScreen from '@/components/LoadingScreen';
+import HeroSection from '@/components/sections/HeroSection';
+import PositioningSection from '@/components/sections/PositioningSection';
+import { updateCanonicalUrl, generatePageMetadata, injectStructuredData } from '@/lib/enhanced-seo-utils';
+import { shouldUseReducedAnimations } from '@/lib/performance-utils';
 
 const services = [
   {
@@ -62,35 +64,25 @@ const Index: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
   const isMobile = useIsMobile();
   const { scrollY } = useScroll();
-  const heroRef = useRef<HTMLDivElement>(null);
-  const heroHeight = useRef<number>(0);
-  
-  // Parallax and animation values
-  const headerY = useTransform(scrollY, [0, 500], [0, -150]);
-  const headerSpring = useSpring(headerY, { damping: 15, stiffness: 100 });
-  
-  const parallaxY1 = useTransform(scrollY, [0, 1000], [0, -300]);
-  const parallaxY2 = useTransform(scrollY, [0, 1000], [0, -150]);
-  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
-  
-  // Animation properties
-  const [animationComplete, setAnimationComplete] = useState(false);
+  const reduceAnimations = shouldUseReducedAnimations();
 
   useEffect(() => {
     window.scrollTo(0, 0);
     setIsMounted(true);
     
-    if (heroRef.current) {
-      heroHeight.current = heroRef.current.offsetHeight;
-    }
+    // Enhanced SEO setup
+    const metadata = generatePageMetadata('/');
+    document.title = metadata.title;
+    updateCanonicalUrl(metadata.canonical);
+    injectStructuredData(metadata.structuredData);
 
     // Loading simulation
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, reduceAnimations ? 1000 : 3000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [reduceAnimations]);
 
   const handleLoadingComplete = () => {
     setShowContent(true);
@@ -98,7 +90,6 @@ const Index: React.FC = () => {
 
   const handleCtaClick = (e: React.MouseEvent) => {
     try {
-      // Add ripple effect to button
       const button = e.currentTarget as HTMLElement;
       if (!button) return;
       
@@ -124,160 +115,10 @@ const Index: React.FC = () => {
 
   return (
     <div className="flex flex-col">
-      {/* Logo in top-left corner */}
-      <div className="fixed top-4 left-4 z-50 w-16 h-16 md:w-20 md:h-20">
-        <img 
-          src="/lovable-uploads/0babdf62-476a-4abe-ae58-912ad729fd2f.png" 
-          alt="AI8TY Logo" 
-          className="w-full h-full object-contain"
-        />
-      </div>
-      
-      {/* Hero Section with Improved 3D Background */}
-      <section 
-        ref={heroRef}
-        className="cinematic-section relative min-h-screen bg-black overflow-hidden z-10"
-      >
-        {/* Persistent background with different z-index to ensure it stays behind content */}
-        <div className="absolute inset-0 z-0">
-          <ParticleBackground className="opacity-70" />
-        </div>
-        
-        <div className="container z-20 relative mx-auto flex flex-col items-center justify-center text-center pt-24 md:pt-16">
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-            style={{ y: headerSpring }}
-            className="z-20"
-          >
-            <h1 className="hero-headline">
-              This isn't branding. This is what <span className="text-ai8ty-blue glow-text">brands wish they were</span>.
-            </h1>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1, delay: 0.5 }}
-            className="z-20"
-          >
-            <p className="hero-subheadline">
-              You're not here to "look nice."<br />
-              You're here to be impossible to ignore.<br />
-              To burn into memory. To make people stop scrolling—and feel like they missed something important if they don't click.
-            </p>
-          </motion.div>
-          
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="hero-cta-container z-20"
-          >
-            <Button 
-              className="bg-[#00B4F0] hover:bg-[#00B4F0]/80 text-white px-8 py-6 text-lg cinematic-button touch-ripple hover-scale-subtle"
-              asChild
-              onClick={handleCtaClick}
-            >
-              <Link to="/contact">
-                Show me the madness
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
-            </Button>
-          </motion.div>
-        </div>
-        
-        <motion.div 
-          className="absolute bottom-16 left-1/2 -translate-x-1/2 z-20"
-          animate={{ 
-            y: [0, 10, 0],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="#00B4F0" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </motion.div>
-      </section>
+      <HeroSection onCtaClick={handleCtaClick} />
+      <PositioningSection onCtaClick={handleCtaClick} />
 
-      {/* Positioning Section with improved animation */}
-      <section className="cinematic-section bg-ai8ty-gray gradient-shift">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.6 }}
-              >
-                <KineticText 
-                  text={'Most "agencies" are factories.'}
-                  className="mb-2"
-                  highlight={["factories"]}
-                  highlightClassName="text-ai8ty-blue"
-                />
-                <KineticText 
-                  text="Templates. Packages. Smile-and-send PDFs."
-                  className="mb-6"
-                  textClassName="text-lg md:text-xl"
-                  highlight={["Templates"]}
-                  highlightClassName="text-ai8ty-violet"
-                />
-              </motion.div>
-              
-              <motion.div
-                className="text-xl mb-6 text-ai8ty-white/80"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-              >
-                <p className="mb-3">They tell you what's trending.</p>
-                <p className="mb-3">We tell you what's next.</p>
-                <p className="mb-3">AI8TY exists for the brand builder who doesn't just want results—</p>
-                <p className="mb-3">They want revenge.</p>
-                <p>On mediocrity. On obscurity. On being slept on.</p>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-              >
-                <Button 
-                  className="bg-ai8ty-blue hover:bg-ai8ty-blue/80 text-white px-6 py-5 text-lg cinematic-button touch-ripple hover-scale-subtle"
-                  asChild
-                  onClick={handleCtaClick}
-                >
-                  <Link to="/contact">
-                    I want my power back
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              </motion.div>
-            </div>
-            
-            <motion.div 
-              className="relative"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
-              <InfinityModel />
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Solution Section with improved animation */}
+      {/* Solution Section - keeping original for now */}
       <section className="cinematic-section bg-ai8ty-black">
         <div className="container mx-auto">
           <motion.div

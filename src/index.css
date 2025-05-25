@@ -6,6 +6,7 @@
 @import './css/process.css';
 @import './css/cta.css';
 @import './css/case-studies.css';
+@import './css/animations.css';
 
 @tailwind base;
 @tailwind components;
