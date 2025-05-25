@@ -1,45 +1,47 @@
 
 /* Services and Solutions section styles */
-.services-section {
-  @apply cinematic-section bg-ai8ty-black;
-}
+@layer components {
+  .services-section {
+    @apply min-h-screen flex flex-col justify-center items-center px-6 py-20 md:px-12 lg:px-16 overflow-hidden bg-ai8ty-black;
+  }
 
-.service-card {
-  @apply bg-ai8ty-gray/20 p-8 rounded-lg border border-ai8ty-gray/30 hover:border-ai8ty-blue/50 transition-all duration-300;
-}
+  .service-card {
+    @apply bg-ai8ty-gray/20 p-8 rounded-lg border border-ai8ty-gray/30 hover:border-ai8ty-blue/50 transition-all duration-300;
+  }
 
-.service-card-icon {
-  @apply w-12 h-12 bg-ai8ty-blue/20 rounded-full flex items-center justify-center mb-6;
-}
+  .service-card-icon {
+    @apply w-12 h-12 bg-ai8ty-blue/20 rounded-full flex items-center justify-center mb-6;
+  }
 
-.service-card-title {
-  @apply text-xl font-bold mb-4;
-}
+  .service-card-title {
+    @apply text-xl font-bold mb-4;
+  }
 
-.service-card-description {
-  @apply text-ai8ty-white/70;
-}
+  .service-card-description {
+    @apply text-ai8ty-white/70;
+  }
 
-.service-card-outcome {
-  @apply mt-4 text-ai8ty-blue text-sm;
-}
+  .service-card-outcome {
+    @apply mt-4 text-ai8ty-blue text-sm;
+  }
 
-.solution-list {
-  @apply space-y-4 text-xl mb-6 text-ai8ty-white/80;
-}
+  .solution-list {
+    @apply space-y-4 text-xl mb-6 text-ai8ty-white/80;
+  }
 
-.solution-item {
-  @apply flex items-start;
-}
+  .solution-item {
+    @apply flex items-start;
+  }
 
-.solution-item-bullet {
-  @apply text-ai8ty-blue mr-2;
-}
+  .solution-item-bullet {
+    @apply text-ai8ty-blue mr-2;
+  }
 
-.crossroads-heading {
-  @apply text-center text-2xl mb-8;
-}
+  .crossroads-heading {
+    @apply text-center text-2xl mb-8;
+  }
 
-.crossroads-container {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
+  .crossroads-container {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
+  }
 }
