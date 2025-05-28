@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
@@ -5,10 +6,6 @@
 @tailwind utilities;
 
 @import './css/hero.css';
-@import './css/services.css';
-@import './css/process.css';
-@import './css/cta.css';
-@import './css/case-studies.css';
 @import './css/animations.css';
 
 @layer base {
@@ -89,6 +86,202 @@
 @layer components {
   .cinematic-section {
     @apply min-h-screen flex flex-col justify-center items-center px-6 py-20 md:px-12 lg:px-16 overflow-hidden;
+  }
+
+  /* Services and Solutions section styles */
+  .services-section {
+    @apply min-h-screen flex flex-col justify-center items-center px-6 py-20 md:px-12 lg:px-16 overflow-hidden bg-ai8ty-black;
+  }
+
+  .service-card {
+    @apply bg-ai8ty-gray/20 p-8 rounded-lg border border-ai8ty-gray/30 hover:border-ai8ty-blue/50 transition-all duration-300;
+  }
+
+  .service-card-icon {
+    @apply w-12 h-12 bg-ai8ty-blue/20 rounded-full flex items-center justify-center mb-6;
+  }
+
+  .service-card-title {
+    @apply text-xl font-bold mb-4;
+  }
+
+  .service-card-description {
+    @apply text-ai8ty-white/70;
+  }
+
+  .service-card-outcome {
+    @apply mt-4 text-ai8ty-blue text-sm;
+  }
+
+  .solution-list {
+    @apply space-y-4 text-xl mb-6 text-ai8ty-white/80;
+  }
+
+  .solution-item {
+    @apply flex items-start;
+  }
+
+  .solution-item-bullet {
+    @apply text-ai8ty-blue mr-2;
+  }
+
+  .crossroads-heading {
+    @apply text-center text-2xl mb-8;
+  }
+
+  .crossroads-container {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6;
+  }
+
+  /* Process section styles */
+  .process-section {
+    @apply min-h-screen flex flex-col justify-center items-center px-6 py-20 md:px-12 lg:px-16 overflow-hidden bg-ai8ty-gray;
+  }
+
+  .process-heading {
+    @apply text-center mb-16;
+  }
+
+  .process-steps-container {
+    @apply grid grid-cols-1 md:grid-cols-3 gap-16;
+  }
+
+  .process-step {
+    @apply bg-ai8ty-black/50 p-8 rounded-lg border border-ai8ty-blue/30 hover:border-ai8ty-violet/50 transition-all duration-300;
+  }
+
+  .process-step-number {
+    @apply w-12 h-12 bg-ai8ty-blue/20 rounded-full flex items-center justify-center mb-6;
+  }
+
+  .process-step-title {
+    @apply text-xl mb-4;
+  }
+
+  .process-step-description {
+    @apply text-ai8ty-white/70;
+  }
+
+  .process-cta-container {
+    @apply mt-16 text-center;
+  }
+
+  /* CTA section styles */
+  .cta-section {
+    @apply min-h-screen flex flex-col justify-center items-center px-6 py-20 md:px-12 lg:px-16 overflow-hidden bg-ai8ty-black;
+  }
+
+  .cta-content {
+    @apply container mx-auto text-center;
+  }
+
+  .cta-heading {
+    @apply mb-6 text-4xl md:text-6xl font-bold;
+  }
+
+  .cta-subheading {
+    @apply text-xl max-w-2xl mx-auto mb-8 text-ai8ty-white/80;
+  }
+
+  .cta-email {
+    @apply mb-8;
+  }
+
+  .cta-email-text {
+    @apply text-ai8ty-blue text-lg;
+  }
+
+  .cta-email-hint {
+    @apply text-sm text-ai8ty-white/60 mt-2;
+  }
+
+  .cta-button-container {
+    @apply flex justify-center;
+  }
+
+  .reframe-section {
+    @apply min-h-screen flex flex-col justify-center items-center px-6 py-20 md:px-12 lg:px-16 overflow-hidden bg-ai8ty-blue;
+  }
+
+  .reframe-content {
+    @apply container mx-auto text-center;
+  }
+
+  .reframe-heading {
+    @apply text-ai8ty-black mb-12;
+  }
+
+  .reframe-quote {
+    @apply max-w-4xl mx-auto bg-ai8ty-black/10 p-12 rounded-lg;
+  }
+
+  .reframe-quote-text {
+    @apply text-3xl md:text-4xl font-light italic mb-8 text-ai8ty-black;
+  }
+
+  .reframe-divider {
+    @apply w-16 h-1 bg-ai8ty-black mx-auto;
+  }
+
+  .reframe-footer {
+    @apply mt-12;
+  }
+
+  .reframe-footer-text {
+    @apply text-xl mb-8 text-ai8ty-black;
+  }
+
+  /* Case studies and social proof section styles */
+  .case-studies-section {
+    @apply min-h-screen flex flex-col justify-center items-center px-6 py-20 md:px-12 lg:px-16 overflow-hidden bg-ai8ty-black gradient-shift;
+  }
+
+  .case-studies-header {
+    @apply flex flex-col md:flex-row items-center justify-between mb-16;
+  }
+
+  .case-studies-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+  }
+
+  .case-study-card {
+    @apply bg-ai8ty-black/50 rounded-lg overflow-hidden border border-ai8ty-gray/30 hover:border-ai8ty-blue/50 transition-all duration-300;
+  }
+
+  .case-study-image {
+    @apply w-full aspect-video object-cover;
+  }
+
+  .case-study-content {
+    @apply p-6;
+  }
+
+  .case-study-title {
+    @apply text-xl font-bold mb-2;
+  }
+
+  .case-study-stats {
+    @apply text-ai8ty-blue text-2xl font-bold mb-2;
+  }
+
+  .case-study-description {
+    @apply text-ai8ty-white/70 mb-4;
+  }
+
+  .case-study-tags {
+    @apply flex flex-wrap gap-2;
+  }
+
+  .case-study-tag {
+    @apply text-xs bg-ai8ty-gray/30 px-2 py-1 rounded;
+  }
+
+  .social-proof-content {
+    @apply max-w-3xl mx-auto text-center mb-16;
+  }
+
+  .social-proof-text {
+    @apply text-xl mb-6 text-ai8ty-white/80;
   }
 
   .glitch-effect {
