@@ -2,6 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { motion, useMotionValue, useSpring } from 'framer-motion';
+import { throttle } from '@/lib/performance-utils';
+import ErrorBoundary from './ErrorBoundary';
 
 const CinematicCursor: React.FC = () => {
   const [visible, setVisible] = useState(false);
@@ -30,7 +32,7 @@ const CinematicCursor: React.FC = () => {
     // Handle cursor visibility initially
     setVisible(false);
     
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = throttle((e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
       
@@ -68,7 +70,7 @@ const CinematicCursor: React.FC = () => {
       } else {
         setHoveredElement(null);
       }
-    };
+    }, 16); // 60fps throttle
     
     const handleMouseDown = () => setClicked(true);
     const handleMouseUp = () => setClicked(false);
@@ -96,7 +98,7 @@ const CinematicCursor: React.FC = () => {
   if (isMobile) return null;
   
   return (
-    <>
+    <ErrorBoundary>
       {/* Small dot that follows cursor precisely */}
       <motion.div 
         ref={dotRef}
@@ -118,7 +120,7 @@ const CinematicCursor: React.FC = () => {
         }}
         animate={{
           opacity: visible ? 0.75 : 0,
-          scale: clicked ? 0.7 : hoveredElement === 'link' ? 1.5 : hoveredElement === 'text' ? 1.2 : hoveredElement === 'input' ? 0.5 : 1,
+          scale: clicked ? 0.7 : hoveredElement ===  'link' ? 1.5 : hoveredElement === 'text' ? 1.2 : hoveredElement === 'input' ? 0.5 : 1,
           borderRadius: '100%',
           borderWidth: hoveredElement === 'link' ? '2px' : '0px',
           backgroundColor: hoveredElement === 'link' ? 'rgba(0, 180, 240, 0.5)' : '#00B4F0',
@@ -141,7 +143,7 @@ const CinematicCursor: React.FC = () => {
           </motion.span>
         )}
       </motion.div>
-    </>
+    </ErrorBoundary>
   );
 };
 

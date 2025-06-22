@@ -1,5 +1,5 @@
 
-// Performance optimization utilities
+// Enhanced performance optimization utilities
 
 export const getDeviceCapabilities = () => {
   if (typeof window === 'undefined') return { isLowEnd: false, isMobile: false };
@@ -15,9 +15,9 @@ export const getDeviceCapabilities = () => {
 export const getOptimalParticleCount = () => {
   const { isLowEnd, isMobile } = getDeviceCapabilities();
   
-  if (isLowEnd) return 300;
-  if (isMobile) return 600;
-  return 1200;
+  if (isLowEnd) return 200;
+  if (isMobile) return 400;
+  return 800; // Reduced from 1200 for better performance
 };
 
 export const shouldUseReducedAnimations = () => {
@@ -70,4 +70,56 @@ export const throttle = <T extends (...args: any[]) => any>(
       setTimeout(() => inThrottle = false, limit);
     }
   }) as T;
+};
+
+// Performance monitoring utilities
+export const measurePerformance = (name: string, fn: () => void) => {
+  if (typeof performance !== 'undefined' && performance.mark && performance.measure) {
+    performance.mark(`${name}-start`);
+    fn();
+    performance.mark(`${name}-end`);
+    performance.measure(name, `${name}-start`, `${name}-end`);
+  } else {
+    fn();
+  }
+};
+
+// Memory usage optimization
+export const cleanupUnusedResources = () => {
+  if (typeof window !== 'undefined' && window.gc) {
+    try {
+      window.gc();
+    } catch (e) {
+      // Garbage collection not available
+    }
+  }
+};
+
+// Loading optimization
+export const createImageLoader = (src: string): Promise<HTMLImageElement> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = reject;
+    img.src = src;
+  });
+};
+
+// Intersection Observer for lazy loading
+export const createIntersectionObserver = (
+  callback: IntersectionObserverCallback,
+  options: IntersectionObserverInit = {}
+) => {
+  const defaultOptions = {
+    root: null,
+    rootMargin: '50px',
+    threshold: 0.1,
+    ...options
+  };
+
+  if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+    return new IntersectionObserver(callback, defaultOptions);
+  }
+
+  return null;
 };

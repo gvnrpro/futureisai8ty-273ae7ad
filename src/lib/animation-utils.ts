@@ -2,7 +2,16 @@
 // Animation utility functions and constants
 import { Variants } from "framer-motion";
 
-// Fade in animation variants
+// Valid easing functions (fixed cubic-bezier values)
+export const EASING = {
+  ease: [0.25, 0.1, 0.25, 1] as [number, number, number, number],
+  easeIn: [0.42, 0, 1, 1] as [number, number, number, number],
+  easeOut: [0, 0, 0.58, 1] as [number, number, number, number],
+  easeInOut: [0.42, 0, 0.58, 1] as [number, number, number, number],
+  smooth: [0.6, 0.05, 0.01, 0.9] as [number, number, number, number], // Fixed invalid value
+} as const;
+
+// Performance-aware animation variants
 export const fadeIn: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: (i = 0) => ({
@@ -11,12 +20,11 @@ export const fadeIn: Variants = {
     transition: {
       delay: i * 0.1,
       duration: 0.8,
-      ease: [0.6, 0.05, -0.01, 0.9],
+      ease: EASING.smooth,
     },
   }),
 };
 
-// Scale animation variants
 export const scaleIn: Variants = {
   hidden: { opacity: 0, scale: 0.95 },
   visible: (i = 0) => ({
@@ -25,12 +33,11 @@ export const scaleIn: Variants = {
     transition: {
       delay: i * 0.1,
       duration: 0.6,
-      ease: [0.6, 0.05, -0.01, 0.9],
+      ease: EASING.smooth,
     },
   }),
 };
 
-// Slide up animation variants
 export const slideUp: Variants = {
   hidden: { opacity: 0, y: 50 },
   visible: (i = 0) => ({
@@ -39,51 +46,66 @@ export const slideUp: Variants = {
     transition: {
       delay: i * 0.1,
       duration: 0.6,
-      ease: [0.6, 0.05, -0.01, 0.9],
+      ease: EASING.smooth,
     },
   }),
 };
 
-// Text reveal animation variants (letter by letter)
-export const textReveal: Variants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      staggerChildren: 0.03,
-      ease: [0.6, 0.05, -0.01, 0.9],
-    },
-  },
+// Reduced motion variants for accessibility
+export const createReducedMotionVariants = (baseVariants: Variants): Variants => {
+  const shouldReduceMotion = typeof window !== 'undefined' && 
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (shouldReduceMotion) {
+    return {
+      hidden: { opacity: 0 },
+      visible: { opacity: 1, transition: { duration: 0.3 } }
+    };
+  }
+
+  return baseVariants;
 };
 
-export const letterReveal: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.4, ease: [0.6, 0.05, -0.01, 0.9] },
-  },
-};
-
-// Animation for parallax scrolling
-export const useParallax = (speed: number) => {
+// Performance-aware animation helper
+export const getOptimizedTransition = (duration: number = 0.6) => {
+  const { isLowEnd } = getDeviceCapabilities();
+  
   return {
-    y: typeof window !== "undefined" ? window.scrollY * speed : 0,
+    duration: isLowEnd ? duration * 0.5 : duration,
+    ease: EASING.smooth,
   };
 };
 
-// Helper for checking WebGL support
+// Device capability detection for performance optimization
+export const getDeviceCapabilities = () => {
+  if (typeof window === 'undefined') return { isLowEnd: false, isMobile: false };
+  
+  const isMobile = window.innerWidth < 768;
+  const isLowEnd = navigator.hardwareConcurrency <= 4 || 
+                   (navigator as any).deviceMemory <= 4 ||
+                   (navigator.userAgent.includes('Android') && isMobile);
+  
+  return { isLowEnd, isMobile };
+};
+
+// Helper for checking WebGL support with error handling
 export const isWebGLSupported = (): boolean => {
   if (typeof window === "undefined") return false;
   
   try {
     const canvas = document.createElement("canvas");
-    return !!(
-      window.WebGLRenderingContext &&
-      (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"))
-    );
+    const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+    return !!gl;
   } catch (e) {
+    console.warn("WebGL not supported:", e);
     return false;
   }
+};
+
+// Animation frame utilities for smooth performance
+export const requestIdleCallback = (callback: () => void) => {
+  if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+    return window.requestIdleCallback(callback);
+  }
+  return setTimeout(callback, 16); // Fallback to setTimeout
 };
